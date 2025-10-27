@@ -1,0 +1,26 @@
+
+body {
+font-size: 85%;
+font-family: "georgia";
+}
+#header {
+margin-top: 15px;
+text-align: right;
+}
+.error_box {
+background-color: #ffffcc;
+border: 1px solid #dc143c;
+color: #DC143C;
+margin: 0 auto;
+overflow: auto;
+padding: 5px;
+position: relative;
+text-align: left;
+width: 90%;
+z-index: 5;
+}
+.icone-geante {
+    /* Utilisez des pixels, 'em' ou 'rem' pour la taille désirée */
+    font-size: 50px !important; 
+    color: #8c2a38;
+}
