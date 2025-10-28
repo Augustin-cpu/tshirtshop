@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.32, created on 2025-10-27 19:33:37
+<?php /* Smarty version 2.6.32, created on 2025-10-28 15:23:43
          compiled from store_front.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
 smarty_core_load_plugins(array('plugins' => array(array('function', 'config_load', 'store_front.tpl', 2, false),)), $this); ?>
