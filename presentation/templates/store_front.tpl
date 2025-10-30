@@ -1,27 +1,28 @@
 {* smarty *}
 {config_load file="site.conf"}
+{load_presentation_object filename="store_front" assign="obj"}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
 <title>{#site_title#}</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link type="text/css" rel="stylesheet" href="styles/tshirtshop.css" />
+<link type="text/css" rel="stylesheet" href="{$obj->mSiteUrl}styles/tshirtshop.css" />
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
-<body>
+<body class="bg-light">
 <div id="doc" class="container-lg">
 <div id="bd">
 <div id="container-lg main">
 <div class="yui-b">
 <div id="header" class="header py-3">
-<a href="index.php" class="text-decoration-none text-dark">
+<a href="{$obj->mSiteUrl}" class="text-decoration-none text-dark">
 <i class="fas fa-tshirt me-2 fs-2"></i>  <span class="fs-3">Tshirt</span><span class="text-warning fs-3">Shop</span>
 </a>
 </div>
 <div class="d-flex flex-coloumn">
-Place list of departments here
+{include file="departments_list.tpl"}
 </div>
 <div id="contents" class="container-lg d-flex justify-content-center">
 Place contents here

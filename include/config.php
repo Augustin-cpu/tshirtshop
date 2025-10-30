@@ -27,3 +27,18 @@ define('LOG_ERRORS_FILE', '/Applications/MAMP/htdocs/tshirtshop/errors_log.txt')
 /* Generic error message to be displayed instead of debug info
 (when DEBUGGING is false) */
 define('SITE_GENERIC_ERROR_MESSAGE', '<h1>TShirtShop Error!</h1>');
+// Configuration de la connectivité à la base de données
+define('DB_PERSISTENCY', 'true');
+define('DB_SERVER', 'localhost');
+define('DB_USERNAME', 'tshirtshopadmin');
+define('DB_PASSWORD', 'tshirtshopadmin');
+define('DB_DATABASE', 'tshirtshop');
+define('PDO_DSN', 'mysql:host=' . DB_SERVER . ';dbname=' . DB_DATABASE);
+
+// Port HTTP du serveur (peut être omis si le port par défaut 80 est utilisé)
+define('HTTP_SERVER_PORT', '8888');
+
+/* Nom du répertoire virtuel dans lequel le site s'exécute, par exemple :
+'/tshirtshop/' si le site s'exécute à http://www.example.com/tshirtshop/
+'/' si le site s'exécute à http://www.example.com/ */
+define('VIRTUAL_LOCATION', '/tshirtshop/');

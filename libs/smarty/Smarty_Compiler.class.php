@@ -32,46 +32,58 @@
  * @package Smarty
  */
 class Smarty_Compiler extends Smarty {
+    // Propriétés manquantes ajoutées pour compatibilité PHP 8+
+    private ?string $_obj_restricted_param_regexp = null;
+    private ?string $_obj_single_param_regexp = null;
+    // Suppression des doublons : ces propriétés sont déjà déclarées plus haut
+    private ?string $_param_regexp = null;
+    private ?string $_plugins_code = null;
 
     // internal vars
     /**#@+
      * @access private
      */
-    var $_folded_blocks         =   array();    // keeps folded template blocks
-    var $_current_file          =   null;       // the current template being compiled
-    var $_current_line_no       =   1;          // line number for error messages
-    var $_capture_stack         =   array();    // keeps track of nested capture buffers
-    var $_plugin_info           =   array();    // keeps track of plugins to load
-    var $_init_smarty_vars      =   false;
-    var $_permitted_tokens      =   array('true','false','yes','no','on','off','null');
-    var $_db_qstr_regexp        =   null;        // regexps are setup in the constructor
-    var $_si_qstr_regexp        =   null;
-    var $_qstr_regexp           =   null;
-    var $_func_regexp           =   null;
-    var $_reg_obj_regexp        =   null;
-    var $_var_bracket_regexp    =   null;
-    var $_num_const_regexp      =   null;
-    var $_dvar_guts_regexp      =   null;
-    var $_dvar_regexp           =   null;
-    var $_cvar_regexp           =   null;
-    var $_svar_regexp           =   null;
-    var $_avar_regexp           =   null;
-    var $_mod_regexp            =   null;
-    var $_var_regexp            =   null;
-    var $_parenth_param_regexp  =   null;
-    var $_func_call_regexp      =   null;
-    var $_obj_ext_regexp        =   null;
-    var $_obj_start_regexp      =   null;
-    var $_obj_params_regexp     =   null;
-    var $_obj_call_regexp       =   null;
-    var $_cacheable_state       =   0;
-    var $_cache_attrs_count     =   0;
-    var $_nocache_count         =   0;
-    var $_cache_serial          =   null;
-    var $_cache_include         =   null;
-
-    var $_strip_depth           =   0;
-    var $_additional_newline    =   "\n";
+    
+    /**
+     * Propriétés modernisées pour PHP 8+
+     */
+    private array $_folded_blocks = [];
+    private ?string $_current_file = null;
+    private int $_current_line_no = 1;
+    private array $_capture_stack = [];
+    private array $_plugin_info = [];
+    private bool $_init_smarty_vars = false;
+    private array $_permitted_tokens = ['true','false','yes','no','on','off','null'];
+    private ?string $_db_qstr_regexp = null;
+    private ?string $_si_qstr_regexp = null;
+    private ?string $_qstr_regexp = null;
+    private ?string $_func_regexp = null;
+    private ?string $_reg_obj_regexp = null;
+    private ?string $_var_bracket_regexp = null;
+    private ?string $_num_const_regexp = null;
+    private ?string $_dvar_math_regexp = null;
+    private ?string $_dvar_math_var_regexp = null;
+    private ?string $_dvar_guts_regexp = null;
+    private ?string $_dvar_regexp = null;
+    private ?string $_cvar_regexp = null;
+    private ?string $_svar_regexp = null;
+    private ?string $_avar_regexp = null;
+    private ?string $_mod_regexp = null;
+    private ?string $_var_regexp = null;
+    private ?string $_parenth_param_regexp = null;
+    private ?string $_func_call_regexp = null;
+    private ?string $_obj_ext_regexp = null;
+    private ?string $_obj_start_regexp = null;
+    private ?string $_obj_params_regexp = null;
+    private ?string $_obj_call_regexp = null;
+    private int $_cacheable_state = 0;
+    private int $_cache_attrs_count = 0;
+    private int $_nocache_count = 0;
+        var $_cache_serial = null;
+    // Correction de la visibilité pour être cohérente avec la classe parente
+    var $_cache_include = null;
+    private int $_strip_depth = 0;
+    private string $_additional_newline = "\n";
 
     /**#@-*/
     /**
@@ -112,6 +124,11 @@ class Smarty_Compiler extends Smarty {
         // $foo[$bar]
         // $foo[5][blah]
         // $foo[5].bar[$foobar][4]
+        /**
+     * Regex de la propriété qui génère l'erreur de dépréciation
+     * Ajouté pour compatibilité avec PHP 8.2+
+     * @var string
+     */
         $this->_dvar_math_regexp = '(?:[\+\*\/\%]|(?:-(?!>)))';
         $this->_dvar_math_var_regexp = '[\$\w\.\+\-\*\/\%\d\>\[\]]';
         $this->_dvar_guts_regexp = '\w+(?:' . $this->_var_bracket_regexp
@@ -391,7 +408,7 @@ class Smarty_Compiler extends Smarty {
         }
 
         // put header at the top of the compiled template
-        $template_header = "<?php /* Smarty version ".$this->_version.", created on ".strftime("%Y-%m-%d %H:%M:%S")."\n";
+    $template_header = "<?php /* Smarty version ".$this->_version.", created on ".date("Y-m-d H:i:s")."\n";
         $template_header .= "         compiled from ".strtr(urlencode($resource_name), array('%2F'=>'/', '%3A'=>':'))." */ ?>\n";
 
         /* Emit code to load needed plugins. */
@@ -1536,33 +1553,27 @@ class Smarty_Compiler extends Smarty {
             1 - expecting '='
             2 - expecting attribute value (not '=') */
         $state = 0;
-
+        $last_token = '';
+        $attr_name = '';
         foreach ($tokens as $token) {
             switch ($state) {
                 case 0:
-                    /* If the token is a valid identifier, we set attribute name
-                       and go to state 1. */
                     if (preg_match('~^\w+$~', $token)) {
                         $attr_name = $token;
                         $state = 1;
-                    } else
+                    } else {
                         $this->_syntax_error("invalid attribute name: '$token'", E_USER_ERROR, __FILE__, __LINE__);
+                    }
                     break;
-
                 case 1:
-                    /* If the token is '=', then we go to state 2. */
                     if ($token == '=') {
                         $state = 2;
-                    } else
+                    } else {
                         $this->_syntax_error("expecting '=' after attribute name '$last_token'", E_USER_ERROR, __FILE__, __LINE__);
+                    }
                     break;
-
                 case 2:
-                    /* If token is not '=', we set the attribute value and go to
-                       state 0. */
                     if ($token != '=') {
-                        /* We booleanize the token if it's a non-quoted possible
-                           boolean value. */
                         if (preg_match('~^(on|yes|true)$~', $token)) {
                             $token = 'true';
                         } else if (preg_match('~^(off|no|false)$~', $token)) {
@@ -1570,16 +1581,15 @@ class Smarty_Compiler extends Smarty {
                         } else if ($token == 'null') {
                             $token = 'null';
                         } else if (preg_match('~^' . $this->_num_const_regexp . '|0[xX][0-9a-fA-F]+$~', $token)) {
-                            /* treat integer literally */
+                            // entier
                         } else if (!preg_match('~^' . $this->_obj_call_regexp . '|' . $this->_var_regexp . '(?:' . $this->_mod_regexp . ')*$~', $token)) {
-                            /* treat as a string, double-quote it escaping quotes */
                             $token = '"'.addslashes($token).'"';
                         }
-
                         $attrs[$attr_name] = $token;
                         $state = 0;
-                    } else
+                    } else {
                         $this->_syntax_error("'=' cannot be an attribute value", E_USER_ERROR, __FILE__, __LINE__);
+                    }
                     break;
             }
             $last_token = $token;
@@ -1606,6 +1616,9 @@ class Smarty_Compiler extends Smarty {
      */
     function _parse_vars_props(&$tokens)
     {
+        if (!is_array($tokens)) {
+            $tokens = [$tokens];
+        }
         foreach($tokens as $key => $val) {
             $tokens[$key] = $this->_parse_var_props($val);
         }
@@ -1771,6 +1784,9 @@ class Smarty_Compiler extends Smarty {
                 if (($smarty_ref = $this->_compile_smarty_ref($_indexes)) !== null) {
                     $_output = $smarty_ref;
                 } else {
+                    if (!is_array($_indexes)) {
+                        $_indexes = [$_indexes];
+                    }
                     $_var_name = substr(array_shift($_indexes), 1);
                     $_output = "\$this->_smarty_vars['$_var_name']";
                 }
@@ -1993,10 +2009,14 @@ class Smarty_Compiler extends Smarty {
      */
     function _compile_smarty_ref(&$indexes)
     {
+        // Correction du type pour $indexes
+        if (!is_array($indexes)) {
+            $indexes = [$indexes];
+        }
         /* Extract the reference name. */
         $_ref = substr($indexes[0], 1);
         foreach($indexes as $_index_no=>$_index) {
-            if (substr($_index, 0, 1) != '.' && $_index_no<2 || !preg_match('~^(\.|\[|->)~', $_index)) {
+            if ((substr($_index, 0, 1) != '.' && $_index_no<2) || !preg_match('~^(\.|\[|->)~', $_index)) {
                 $this->_syntax_error('$smarty' . implode('', array_slice($indexes, 0, 2)) . ' is an invalid reference', E_USER_ERROR, __FILE__, __LINE__);
             }
         }
