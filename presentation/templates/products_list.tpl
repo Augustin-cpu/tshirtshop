@@ -46,7 +46,7 @@
                         {* Logique du badge Solde (ajustée pour un pourcentage simple) *}
                         {if $obj->mProducts[k].discounted_price != 0 && $obj->mProducts[k].price > $obj->mProducts[k].discounted_price}
                             <span class="badge bg-danger position-absolute top-0 end-0 mt-2 me-2">
-                                SOLDE!
+                                PROMO!
                             </span>
                         {/if}
                     {/if}

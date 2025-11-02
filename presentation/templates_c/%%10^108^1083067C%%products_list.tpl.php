@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.32, created on 2025-11-02 15:23:15
+<?php /* Smarty version 2.6.32, created on 2025-11-02 16:29:51
          compiled from products_list.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
 smarty_core_load_plugins(array('plugins' => array(array('function', 'load_presentation_object', 'products_list.tpl', 2, false),array('modifier', 'string_format', 'products_list.tpl', 73, false),)), $this); ?>
@@ -70,7 +70,7 @@ $this->_sections['k']['last']       = ($this->_sections['k']['iteration'] == $th
                         
                                                 <?php if ($this->_tpl_vars['obj']->mProducts[$this->_sections['k']['index']]['discounted_price'] != 0 && $this->_tpl_vars['obj']->mProducts[$this->_sections['k']['index']]['price'] > $this->_tpl_vars['obj']->mProducts[$this->_sections['k']['index']]['discounted_price']): ?>
                             <span class="badge bg-danger position-absolute top-0 end-0 mt-2 me-2">
-                                SOLDE!
+                                PROMO!
                             </span>
                         <?php endif; ?>
                     <?php endif; ?>

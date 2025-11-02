@@ -9,9 +9,18 @@ class DepartmentsList
     // Le constructeur lit le paramètre de la chaîne de requête
     public function __construct()
     {
-        /* Si DepartmentId existe dans la chaîne de requête, nous visitons un département */
         if (isset($_GET['DepartmentId']))
             $this->mSelectedDepartment = (int)$_GET['DepartmentId'];
+        elseif (
+            isset($_GET['ProductId']) &&
+            isset($_SESSION['link_to_continue_shopping'])
+        ) {
+            $continue_shopping =
+                Link::QueryStringToArray($_SESSION['link_to_continue_shopping']);
+            if (array_key_exists('DepartmentId', $continue_shopping))
+                $this->mSelectedDepartment =
+                    (int)$continue_shopping['DepartmentId'];
+        }
     }
 
     /* Appelle la méthode du niveau métier pour lire la liste des départements et créer leurs liens */
