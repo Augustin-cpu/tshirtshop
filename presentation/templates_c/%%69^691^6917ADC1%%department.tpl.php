@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.32, created on 2025-11-02 06:31:03
+<?php /* Smarty version 2.6.32, created on 2025-11-02 10:08:47
          compiled from department.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
 smarty_core_load_plugins(array('plugins' => array(array('function', 'load_presentation_object', 'department.tpl', 2, false),)), $this); ?>
@@ -8,4 +8,8 @@ smarty_core_load_plugins(array('plugins' => array(array('function', 'load_presen
 </h1>
 <p class="lead"><?php echo $this->_tpl_vars['obj']->mDescription; ?>
 </p>
-Place list of products here
+<?php $_smarty_tpl_vars = $this->_tpl_vars;
+$this->_smarty_include(array('smarty_include_tpl_file' => "products_list.tpl", 'smarty_include_vars' => array()));
+$this->_tpl_vars = $_smarty_tpl_vars;
+unset($_smarty_tpl_vars);
+ ?>

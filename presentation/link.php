@@ -32,4 +32,8 @@ class Link
             '&CategoryId=' . $categoryId;
         return self::Build($link);
     }
+    public static function ToProduct($productId)
+    {
+        return self::Build('index.php?ProductId=' . $productId);
+    }
 }
