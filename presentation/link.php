@@ -26,4 +26,10 @@ class Link
         // Utilise la méthode Build pour le rendre absolu et sécurisé
         return self::Build($link);
     }
+    public static function ToCategory($departmentId, $categoryId)
+    {
+        $link = 'index.php?DepartmentId=' . $departmentId .
+            '&CategoryId=' . $categoryId;
+        return self::Build($link);
+    }
 }

@@ -14,7 +14,7 @@
       <li class="list-group-item list-group-item-action">
         {* Génère un lien pour un nouveau département dans la liste *}
         <a {$selected} href="{$obj->mDepartments[i].link_to_department}" class="text-decoration-none text-dark">
-          {$obj->mDepartments[i].name}
+          <i class="bi bi-shop"></i> {$obj->mDepartments[i].name}
         </a>
       </li>
     {/section}

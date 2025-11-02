@@ -1,4 +1,7 @@
 <?php
+// Activer la session
+session_start();
+
 // Include utility files
 require_once 'include/config.php';
 // Load the application page template

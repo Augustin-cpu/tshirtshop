@@ -42,3 +42,7 @@ define('HTTP_SERVER_PORT', '8888');
 '/tshirtshop/' si le site s'exécute à http://www.example.com/tshirtshop/
 '/' si le site s'exécute à http://www.example.com/ */
 define('VIRTUAL_LOCATION', '/tshirtshop/');
+
+// Configurer les options d'affichage des listes de produits
+define('SHORT_PRODUCT_DESCRIPTION_LENGTH', 150);
+define('PRODUCTS_PER_PAGE', 4);

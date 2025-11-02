@@ -14,19 +14,24 @@
 <body class="bg-light">
 <div id="doc" class="container-lg">
 <div id="bd">
-<div id="container-lg main">
-<div class="yui-b">
+<div id="container-fluid-lg main d-flex flex-column">
 <div id="header" class="header py-3">
-<a href="{$obj->mSiteUrl}" class="text-decoration-none text-dark">
-<i class="fas fa-tshirt me-2 fs-2"></i>  <span class="fs-3">Tshirt</span><span class="text-warning fs-3">Shop</span>
-</a>
+        <a href="{$obj->mSiteUrl}" class="text-decoration-none text-dark">
+        <i class="fas fa-tshirt me-2 fs-2"></i>  <span class="fs-3">Tshirt</span><span class="text-warning fs-3">Shop</span>
+        </a>
 </div>
-<div class="d-flex flex-coloumn">
-{include file="departments_list.tpl"}
-</div>
-<div id="contents" class="container-lg d-flex justify-content-center">
-Place contents here
-</div>
+<div class="d-flex gap-5">
+    <div class="d-flex flex-column">
+        <div>
+            {include file="departments_list.tpl"}
+        </div>
+        <div> 
+            {include file=$obj->mCategoriesCell}    
+        </div>
+    </div>
+    <div id="contents" class="container-lg d-flex flex-column justify-content-center">
+        {include file=$obj->mContentsCell}
+    </div>
 </div>
 </div>
 
