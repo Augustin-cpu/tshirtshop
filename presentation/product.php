@@ -57,7 +57,8 @@ class Product
         if ($this->mProduct['image_2'])
             $this->mProduct['image_2'] =
                 Link::Build('product_images/' . $this->mProduct['image_2']);
-
+        $this->mProduct['attributes'] =
+            Catalog::GetProductAttributes($this->mProduct['product_id']);
         // Obtenir les emplacements du produit (Départements/Catégories)
         $this->mLocations = Catalog::GetProductLocations($this->_mProductId);
 

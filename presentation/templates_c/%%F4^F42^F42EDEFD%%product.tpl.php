@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.32, created on 2025-11-02 16:39:32
+<?php /* Smarty version 2.6.32, created on 2025-11-04 19:27:02
          compiled from product.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
 smarty_core_load_plugins(array('plugins' => array(array('function', 'load_presentation_object', 'product.tpl', 1, false),array('modifier', 'string_format', 'product.tpl', 43, false),)), $this); ?>
@@ -51,7 +51,47 @@ smarty_core_load_plugins(array('plugins' => array(array('function', 'load_presen
                     </span>
                 <?php endif; ?>
             </div>
+            <p class="attributes">
+<?php unset($this->_sections['k']);
+$this->_sections['k']['name'] = 'k';
+$this->_sections['k']['loop'] = is_array($_loop=$this->_tpl_vars['obj']->mProduct['attributes']) ? count($_loop) : max(0, (int)$_loop); unset($_loop);
+$this->_sections['k']['show'] = true;
+$this->_sections['k']['max'] = $this->_sections['k']['loop'];
+$this->_sections['k']['step'] = 1;
+$this->_sections['k']['start'] = $this->_sections['k']['step'] > 0 ? 0 : $this->_sections['k']['loop']-1;
+if ($this->_sections['k']['show']) {
+    $this->_sections['k']['total'] = $this->_sections['k']['loop'];
+    if ($this->_sections['k']['total'] == 0)
+        $this->_sections['k']['show'] = false;
+} else
+    $this->_sections['k']['total'] = 0;
+if ($this->_sections['k']['show']):
 
+            for ($this->_sections['k']['index'] = $this->_sections['k']['start'], $this->_sections['k']['iteration'] = 1;
+                 $this->_sections['k']['iteration'] <= $this->_sections['k']['total'];
+                 $this->_sections['k']['index'] += $this->_sections['k']['step'], $this->_sections['k']['iteration']++):
+$this->_sections['k']['rownum'] = $this->_sections['k']['iteration'];
+$this->_sections['k']['index_prev'] = $this->_sections['k']['index'] - $this->_sections['k']['step'];
+$this->_sections['k']['index_next'] = $this->_sections['k']['index'] + $this->_sections['k']['step'];
+$this->_sections['k']['first']      = ($this->_sections['k']['iteration'] == 1);
+$this->_sections['k']['last']       = ($this->_sections['k']['iteration'] == $this->_sections['k']['total']);
+?>
+<?php if ($this->_sections['k']['first'] || $this->_tpl_vars['obj']->mProduct['attributes'][$this->_sections['k']['index']]['attribute_name'] !== $this->_tpl_vars['obj']->mProduct['attributes'][$this->_sections['k']['index_prev']]['attribute_name']): ?>
+<?php echo $this->_tpl_vars['obj']->mProduct['attributes'][$this->_sections['k']['index']]['attribute_name']; ?>
+:
+<select name="attr_<?php echo $this->_tpl_vars['obj']->mProduct['attributes'][$this->_sections['k']['index']]['attribute_name']; ?>
+">
+<?php endif; ?>
+<option value="<?php echo $this->_tpl_vars['obj']->mProduct['attributes'][$this->_sections['k']['index']]['attribute_value']; ?>
+">
+<?php echo $this->_tpl_vars['obj']->mProduct['attributes'][$this->_sections['k']['index']]['attribute_value']; ?>
+
+</option>
+<?php if ($this->_sections['k']['last'] || $this->_tpl_vars['obj']->mProduct['attributes'][$this->_sections['k']['index']]['attribute_name'] !== $this->_tpl_vars['obj']->mProduct['attributes'][$this->_sections['k']['index_next']]['attribute_name']): ?>
+</select>
+<?php endif; ?>
+<?php endfor; endif; ?>
+</p>
                         <button class="btn btn-sm btn-warning shadow-sm mb-4 text-white p-2" type="button">
                 <i class="bi bi-bag-plus me-2"></i> Ajouter au Panier
             </button>

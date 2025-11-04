@@ -54,7 +54,29 @@
                     </span>
                 {/if}
             </div>
-
+            {* Générer la liste des valeurs d'attributs *}
+<p class="attributes">
+{* Analyser la liste des attributs et des valeurs d'attributs *}
+{section name=k loop=$obj->mProduct.attributes}
+{* Générer une nouvelle balise select ? *}
+{if $smarty.section.k.first ||
+$obj->mProduct.attributes[k].attribute_name !==
+$obj->mProduct.attributes[k.index_prev].attribute_name}
+{$obj->mProduct.attributes[k].attribute_name}:
+<select name="attr_{$obj->mProduct.attributes[k].attribute_name}">
+{/if}
+{* Générer une nouvelle balise option *}
+<option value="{$obj->mProduct.attributes[k].attribute_value}">
+{$obj->mProduct.attributes[k].attribute_value}
+</option>
+{* Fermer la balise select ? *}
+{if $smarty.section.k.last ||
+$obj->mProduct.attributes[k].attribute_name !==
+$obj->mProduct.attributes[k.index_next].attribute_name}
+</select>
+{/if}
+{/section}
+</p>
             {* Bouton Action (Ajouter au panier - non implémenté ici mais utile pour le design) *}
             <button class="btn btn-sm btn-warning shadow-sm mb-4 text-white p-2" type="button">
                 <i class="bi bi-bag-plus me-2"></i> Ajouter au Panier

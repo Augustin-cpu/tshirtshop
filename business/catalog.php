@@ -181,4 +181,16 @@ nombre de produits renvoyés par la requête $countSql */
     // Exécuter la requête et retourner les résultats
     return DatabaseHandler::GetAll($sql, $params);
   }
+  // Récupère les attributs du produit
+  public static function GetProductAttributes($productId)
+  {
+    // Construire la requête SQL
+    $sql = 'CALL catalog_get_product_attributes(:product_id)';
+
+    // Construire le tableau de paramètres
+    $params = array(':product_id' => $productId);
+
+    // Exécuter la requête et retourner les résultats
+    return DatabaseHandler::GetAll($sql, $params);
+  }
 }
