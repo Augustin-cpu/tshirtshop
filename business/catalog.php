@@ -40,8 +40,7 @@ class Catalog
     // Exécuter la requête et retourner les résultats
     return DatabaseHandler::GetRow($sql, $params);
   }
-  /* Calcule le nombre de pages de produits pouvant être remplies par le
-nombre de produits renvoyés par la requête $countSql */
+  /* Calcule le nombre de pages de produits pouvant être remplies par le nombre de produits renvoyés par la requête $countSql */
   private static function HowManyPages($countSql, $countSqlParams)
   {
     // Créer un hachage pour la requête sql 

@@ -1,0 +1,23 @@
+<IfModule mod_rewrite.c>
+# Activer mod_rewrite
+RewriteEngine On 
+# Spécifier le dossier dans lequel l'application réside.
+# Utilisez / si l'application est à la racine. 
+RewriteBase /tshirtshop
+# Réécrire vers le domaine correct pour éviter les problèmes de canonisation
+# RewriteCond %{HTTP_HOST} !^www\.example\.com
+# RewriteRule ^(.*)$ http://www.example.com/$1 [R=301,L]
+# Réécrire les URLs se terminant par /index.php ou /index.html vers /
+RewriteCond %{THE_REQUEST} ^GET\ .*/index\.(php|html?)\ HTTP
+RewriteRule ^(.*)index\.(php|html?)$ $1 [R=301,L]
+# Réécrire les pages de catégorie
+RewriteRule ^.*-d([0-9]+)/.*-c([0-9]+)/page-([0-9]+)/?$ index.php?DepartmentId=$1&CategoryId=$2&Page=$3 [L]
+RewriteRule ^.*-d([0-9]+)/.*-c([0-9]+)/?$ index.php?DepartmentId=$1&CategoryId=$2 [L]
+# Réécrire les pages de département
+RewriteRule ^.*-d([0-9]+)/page-([0-9]+)/?$ index.php?DepartmentId=$1&Page=$2 [L]
+RewriteRule ^.*-d([0-9]+)/?$ index.php?DepartmentId=$1 [L]
+# Réécrire les sous-pages de la page d'accueil
+RewriteRule ^page-([0-9]+)/?$ index.php?Page=$1 [L]
+# Réécrire les pages de détails de produit
+RewriteRule ^.*-p([0-9]+)/?$ index.php?ProductId=$1 [L]
+</IfModule>
