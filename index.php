@@ -1,7 +1,8 @@
 <?php
 // Activer la session
 session_start();
-
+// Démarrer le buffer de sortie
+ob_start();
 // Include utility files
 require_once 'include/config.php';
 // Load the application page template
@@ -15,6 +16,8 @@ require_once PRESENTATION_DIR . 'application.php';
 // Charge la classe Link (Mise en évidence)
 require_once PRESENTATION_DIR . 'link.php';
 
+// Correction d'URL
+Link::CheckRequest();
 // Définir le gestionnaire d'erreurs
 ErrorHandler::SetHandler(); // Nouveau
 // Load Smarty template file
@@ -24,3 +27,7 @@ $application->display('store_front.tpl');
 
 // Ferme la connexion à la base de données
 DatabaseHandler::Close();
+// Afficher le contenu du buffer
+flush();
+ob_flush();
+ob_end_clean();

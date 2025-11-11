@@ -1,23 +1,29 @@
 <IfModule mod_rewrite.c>
 # Activer mod_rewrite
-RewriteEngine On 
-# Spécifier le dossier dans lequel l'application réside.
-# Utilisez / si l'application est à la racine. 
-RewriteBase /tshirtshop
-# Réécrire vers le domaine correct pour éviter les problèmes de canonisation
-# RewriteCond %{HTTP_HOST} !^www\.example\.com
-# RewriteRule ^(.*)$ http://www.example.com/$1 [R=301,L]
-# Réécrire les URLs se terminant par /index.php ou /index.html vers /
-RewriteCond %{THE_REQUEST} ^GET\ .*/index\.(php|html?)\ HTTP
-RewriteRule ^(.*)index\.(php|html?)$ $1 [R=301,L]
-# Réécrire les pages de catégorie
+RewriteEngine On
+# Définir le chemin de base si le projet n'est pas à la racine (très important pour MAMP)
+RewriteBase /tshirtshop/ 
+
+# --- Règles de gestion des erreurs (404 et 500) ---
+ErrorDocument 500 /tshirtshop/500.php
+ErrorDocument 404 /tshirtshop/404.php
+
+# --- Règles de Réécriture d'URL (URL conviviales) ---
+# Rediriger les résultats de recherche (avec et sans pagination)
+RewriteRule ^search-results/find-(.*)/all-words-(on|off)/page-([0-9]+)/?$ index.php?SearchResults&SearchString=$1&AllWords=$2&Page=$3 [L]
+RewriteRule ^search-results/find-?(.*)/all-words-(on|off)/?$ index.php?SearchResults&SearchString=$1&AllWords=$2&Page=1 [L]
+
+# Rediriger la page d'accueil paginée
+RewriteRule ^page-([0-9]+)/?$ index.php?Page=$1 [L]
+
+# Rediriger les pages de produit (details)
+RewriteRule ^.*-p([0-9]+)/?$ index.php?ProductId=$1 [L]
+
+# Rediriger les pages de catégorie (avec et sans pagination)
 RewriteRule ^.*-d([0-9]+)/.*-c([0-9]+)/page-([0-9]+)/?$ index.php?DepartmentId=$1&CategoryId=$2&Page=$3 [L]
 RewriteRule ^.*-d([0-9]+)/.*-c([0-9]+)/?$ index.php?DepartmentId=$1&CategoryId=$2 [L]
-# Réécrire les pages de département
+
+# Rediriger les pages de département (avec et sans pagination)
 RewriteRule ^.*-d([0-9]+)/page-([0-9]+)/?$ index.php?DepartmentId=$1&Page=$2 [L]
 RewriteRule ^.*-d([0-9]+)/?$ index.php?DepartmentId=$1 [L]
-# Réécrire les sous-pages de la page d'accueil
-RewriteRule ^page-([0-9]+)/?$ index.php?Page=$1 [L]
-# Réécrire les pages de détails de produit
-RewriteRule ^.*-p([0-9]+)/?$ index.php?ProductId=$1 [L]
 </IfModule>

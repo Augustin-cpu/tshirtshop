@@ -192,4 +192,121 @@ class Catalog
     // Exécuter la requête et retourner les résultats
     return DatabaseHandler::GetAll($sql, $params);
   }
+  // Rechercher dans le catalogue
+  public static function Search(
+    $searchString,
+    $allWords,
+    $pageNo,
+    &$rHowManyPages
+  ) {
+    // Le résultat de la recherche sera un tableau de cette forme
+    $search_result = array(
+      'accepted_words' => array(),
+      'ignored_words' => array(),
+      'products' => array()
+    );
+
+    // Retourner vide si la chaîne de recherche est vide
+    if (empty($searchString))
+      return $search_result;
+
+    // Délimiteurs de la chaîne de recherche
+    $delimiters = ',.; ';
+
+    /* Lors du premier appel à strtok, vous fournissez l'intégralité
+    de la chaîne de recherche et la liste des délimiteurs.
+    Cela renvoie le premier mot de la chaîne */
+    $word = strtok($searchString, $delimiters);
+
+    // Analyser la chaîne mot par mot jusqu'à ce qu'il n'y ait plus de mots
+    while ($word) {
+      // Les mots courts sont ajoutés à la liste ignored_words de $search_result
+      if (strlen($word) < FT_MIN_WORD_LEN)
+        $search_result['ignored_words'][] = $word;
+      else
+        $search_result['accepted_words'][] = $word;
+
+      // Obtenir le mot suivant de la chaîne de recherche
+      $word = strtok($delimiters);
+    }
+
+    // S'il n'y a pas de mots acceptés, retourner $search_result
+    if (count($search_result['accepted_words']) == 0)
+      return $search_result;
+
+    // Construire $search_string à partir de la liste des mots acceptés
+    $search_string = '';
+
+    // Si $allWords est 'on', nous ajoutons un ' +' devant chaque mot
+    if (strcmp($allWords, "on") == 0)
+      $search_string = implode(" +", $search_result['accepted_words']);
+    else
+      $search_string = implode(" ", $search_result['accepted_words']);
+
+    // Compter le nombre de résultats de recherche
+    $sql = 'CALL catalog_count_search_result(:search_string, :all_words)';
+    $params = array(
+      ':search_string' => $search_string,
+      ':all_words' => $allWords
+    );
+
+    // Calculer le nombre de pages requises pour afficher les produits
+    $rHowManyPages = Catalog::HowManyPages($sql, $params);
+
+    // Calculer l'élément de départ (start item)
+    $start_item = ($pageNo - 1) * PRODUCTS_PER_PAGE;
+
+    // Récupérer la liste des produits correspondants
+    $sql = 'CALL catalog_search(:search_string, :all_words,
+                                :short_product_description_length,
+                                :products_per_page, :start_item)';
+
+    // Construire le tableau de paramètres
+    $params = array(
+      ':search_string' => $search_string,
+      ':all_words' => $allWords,
+      ':short_product_description_length' =>
+      SHORT_PRODUCT_DESCRIPTION_LENGTH,
+      ':products_per_page' => PRODUCTS_PER_PAGE,
+      ':start_item' => $start_item
+    );
+
+    // Exécuter la requête
+    $search_result['products'] = DatabaseHandler::GetAll($sql, $params);
+
+    // Retourner les résultats
+    return $search_result;
+  }
+  // Récupère le nom du département
+  public static function GetDepartmentName($departmentId)
+  {
+    // Construire la requête SQL
+    $sql = 'CALL catalog_get_department_name(:department_id)';
+    // Construire le tableau de paramètres
+    $params = array(':department_id' => $departmentId);
+    // Exécuter la requête et retourner les résultats
+    return DatabaseHandler::GetOne($sql, $params);
+  }
+
+  // Récupère le nom de la catégorie
+  public static function GetCategoryName($categoryId)
+  {
+    // Construire la requête SQL
+    $sql = 'CALL catalog_get_category_name(:category_id)';
+    // Construire le tableau de paramètres
+    $params = array(':category_id' => $categoryId);
+    // Exécuter la requête et retourner les résultats
+    return DatabaseHandler::GetOne($sql, $params);
+  }
+
+  // Récupère le nom du produit
+  public static function GetProductName($productId)
+  {
+    // Construire la requête SQL
+    $sql = 'CALL catalog_get_product_name(:product_id)';
+    // Construire le tableau de paramètres
+    $params = array(':product_id' => $productId);
+    // Exécuter la requête et retourner les résultats
+    return DatabaseHandler::GetOne($sql, $params);
+  }
 }

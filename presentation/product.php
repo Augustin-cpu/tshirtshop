@@ -45,6 +45,13 @@ class Product
             elseif (isset($continue_shopping['DepartmentId']))
                 $this->mLinkToContinueShopping =
                     Link::ToDepartment((int)$continue_shopping['DepartmentId'], $page);
+            elseif (isset($continue_shopping['SearchResults']))
+                $this->mLinkToContinueShopping =
+                    Link::ToSearchResults(
+                        trim(str_replace('-', ' ', $continue_shopping['SearchString'])),
+                        $continue_shopping['AllWords'],
+                        $page
+                    );
             else
                 $this->mLinkToContinueShopping = Link::ToIndex($page);
         }
@@ -61,6 +68,18 @@ class Product
             Catalog::GetProductAttributes($this->mProduct['product_id']);
         // Obtenir les emplacements du produit (Départements/Catégories)
         $this->mLocations = Catalog::GetProductLocations($this->_mProductId);
+        if (isset($continue_shopping['DepartmentId']))
+            $this->mLinkToContinueShopping =
+                Link::ToDepartment((int)$continue_shopping['DepartmentId'], $page);
+        elseif (isset($continue_shopping['SearchResults']))
+            $this->mLinkToContinueShopping =
+                Link::ToSearchResults(
+                    trim(str_replace('-', ' ', $continue_shopping['SearchString'])),
+                    $continue_shopping['AllWords'],
+                    $page
+                );
+        else
+            $this->mLinkToContinueShopping = Link::ToIndex($page);
 
         // Construire des liens pour les pages de départements et catégories du produit
         for ($i = 0; $i < count($this->mLocations); $i++) {

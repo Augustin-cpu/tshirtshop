@@ -46,3 +46,7 @@ define('VIRTUAL_LOCATION', '/tshirtshop/');
 // Configurer les options d'affichage des listes de produits
 define('SHORT_PRODUCT_DESCRIPTION_LENGTH', 150);
 define('PRODUCTS_PER_PAGE', 4);
+
+/* Longueur minimale des mots pour les recherches ; cette constante doit être maintenue
+en synchronisation avec la variable MySQL ft_min_word_len */
+define('FT_MIN_WORD_LEN', 4);
