@@ -63,11 +63,14 @@ class Product
 
         if ($this->mProduct['image_2'])
             $this->mProduct['image_2'] =
-                Link::Build('product_images/' . $this->mProduct['image_2']);
+                Link::Build('/Images/product_images/' . $this->mProduct['image_2']);
         $this->mProduct['attributes'] =
             Catalog::GetProductAttributes($this->mProduct['product_id']);
         // Obtenir les emplacements du produit (Départements/Catégories)
         $this->mLocations = Catalog::GetProductLocations($this->_mProductId);
+        // Create the Add to Cart link
+$this->mProduct['link_to_add_product'] =
+Link::ToAddProduct($this->_mProductId);
         if (isset($continue_shopping['DepartmentId']))
             $this->mLinkToContinueShopping =
                 Link::ToDepartment((int)$continue_shopping['DepartmentId'], $page);

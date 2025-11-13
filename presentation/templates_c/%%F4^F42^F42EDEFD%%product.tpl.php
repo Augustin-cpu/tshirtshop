@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.32, created on 2025-11-04 19:27:02
+<?php /* Smarty version 2.6.32, created on 2025-11-12 16:48:10
          compiled from product.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
 smarty_core_load_plugins(array('plugins' => array(array('function', 'load_presentation_object', 'product.tpl', 1, false),array('modifier', 'string_format', 'product.tpl', 43, false),)), $this); ?>
@@ -6,30 +6,36 @@ smarty_core_load_plugins(array('plugins' => array(array('function', 'load_presen
 
 
 <div class="container my-5">
-    
+
     <div class="row">
-        
+
                 <div class="col-md-6 mb-4 p-3 gap-2">
             <h1 class="display-5 fw-bold mb-3 text-dark"><?php echo $this->_tpl_vars['obj']->mProduct['name']; ?>
 </h1>
             <hr class="mb-4">
 
                         <?php if ($this->_tpl_vars['obj']->mProduct['image']): ?>
-                                <img src="https://placehold.co/700x200" class="img-fluid card-img-top" alt="T-Shirt Dragon Rouge">
-
+                <img class="img-fluid border border-2 rounded shadow-sm mb-3" src="<?php echo $this->_tpl_vars['obj']->mProduct['image_2']; ?>
+"
+                    alt="<?php echo $this->_tpl_vars['obj']->mProduct['name']; ?>
+ image" />
+                
             <?php endif; ?>
 
                         <?php if ($this->_tpl_vars['obj']->mProduct['image_2']): ?>
-                                <img src="https://placehold.co/700x200" class="img-fluid card-img-top mt-2" alt="T-Shirt Dragon Rouge">
-            <?php endif; ?>
+                <img class="img-fluid border border-1 rounded-sm shadow-sm" style="max-width: 150px;"
+                    src="<?php echo $this->_tpl_vars['obj']->mProduct['image_2']; ?>
+" alt="<?php echo $this->_tpl_vars['obj']->mProduct['name']; ?>
+ image 2" />
+                            <?php endif; ?>
         </div>
 
                 <div class="col-md-6 mb-4">
-            
+
                         <h3 class="h5 mb-3 text-muted">Description :</h3>
             <p class="lead mb-4 text-secondary"><?php echo $this->_tpl_vars['obj']->mProduct['description']; ?>
 </p>
-            
+
             <hr>
 
                         <div class="mb-4">
@@ -51,8 +57,10 @@ smarty_core_load_plugins(array('plugins' => array(array('function', 'load_presen
                     </span>
                 <?php endif; ?>
             </div>
-            <p class="attributes">
-<?php unset($this->_sections['k']);
+                        <form class="add-product-form" target="_self" method="post" action="<?php echo $this->_tpl_vars['obj']->mProduct['link_to_add_product']; ?>
+">
+                                <p class="attributes">
+                                        <?php unset($this->_sections['k']);
 $this->_sections['k']['name'] = 'k';
 $this->_sections['k']['loop'] = is_array($_loop=$this->_tpl_vars['obj']->mProduct['attributes']) ? count($_loop) : max(0, (int)$_loop); unset($_loop);
 $this->_sections['k']['show'] = true;
@@ -76,26 +84,26 @@ $this->_sections['k']['index_next'] = $this->_sections['k']['index'] + $this->_s
 $this->_sections['k']['first']      = ($this->_sections['k']['iteration'] == 1);
 $this->_sections['k']['last']       = ($this->_sections['k']['iteration'] == $this->_sections['k']['total']);
 ?>
-<?php if ($this->_sections['k']['first'] || $this->_tpl_vars['obj']->mProduct['attributes'][$this->_sections['k']['index']]['attribute_name'] !== $this->_tpl_vars['obj']->mProduct['attributes'][$this->_sections['k']['index_prev']]['attribute_name']): ?>
-<?php echo $this->_tpl_vars['obj']->mProduct['attributes'][$this->_sections['k']['index']]['attribute_name']; ?>
+                                                <?php if ($this->_sections['k']['first'] || $this->_tpl_vars['obj']->mProduct['attributes'][$this->_sections['k']['index']]['attribute_name'] !== $this->_tpl_vars['obj']->mProduct['attributes'][$this->_sections['k']['index_prev']]['attribute_name']): ?>
+                        <?php echo $this->_tpl_vars['obj']->mProduct['attributes'][$this->_sections['k']['index']]['attribute_name']; ?>
 :
-<select name="attr_<?php echo $this->_tpl_vars['obj']->mProduct['attributes'][$this->_sections['k']['index']]['attribute_name']; ?>
+                        <select name="attr_<?php echo $this->_tpl_vars['obj']->mProduct['attributes'][$this->_sections['k']['index']]['attribute_name']; ?>
 ">
-<?php endif; ?>
-<option value="<?php echo $this->_tpl_vars['obj']->mProduct['attributes'][$this->_sections['k']['index']]['attribute_value']; ?>
+                        <?php endif; ?>
+                                                <option value="<?php echo $this->_tpl_vars['obj']->mProduct['attributes'][$this->_sections['k']['index']]['attribute_value']; ?>
 ">
-<?php echo $this->_tpl_vars['obj']->mProduct['attributes'][$this->_sections['k']['index']]['attribute_value']; ?>
+                            <?php echo $this->_tpl_vars['obj']->mProduct['attributes'][$this->_sections['k']['index']]['attribute_value']; ?>
 
-</option>
-<?php if ($this->_sections['k']['last'] || $this->_tpl_vars['obj']->mProduct['attributes'][$this->_sections['k']['index']]['attribute_name'] !== $this->_tpl_vars['obj']->mProduct['attributes'][$this->_sections['k']['index_next']]['attribute_name']): ?>
-</select>
-<?php endif; ?>
-<?php endfor; endif; ?>
-</p>
-                        <button class="btn btn-sm btn-warning shadow-sm mb-4 text-white p-2" type="button">
-                <i class="bi bi-bag-plus me-2"></i> Ajouter au Panier
-            </button>
-
+                        </option>
+                                                <?php if ($this->_sections['k']['last'] || $this->_tpl_vars['obj']->mProduct['attributes'][$this->_sections['k']['index']]['attribute_name'] !== $this->_tpl_vars['obj']->mProduct['attributes'][$this->_sections['k']['index_next']]['attribute_name']): ?>
+                    </select>
+                    <?php endif; ?>
+                    <?php endfor; endif; ?>
+                </p>
+                                <button type="submit" class="btn btn-sm btn-warning shadow-sm mb-4 text-white p-2" name="submit">
+                    <i class="bi bi-bag-plus me-2"></i> Add to Cart
+                </button>
+            </form>
                         <?php if ($this->_tpl_vars['obj']->mLinkToContinueShopping): ?>
                 <div class="mb-4">
                     <a href="<?php echo $this->_tpl_vars['obj']->mLinkToContinueShopping; ?>
@@ -106,7 +114,7 @@ $this->_sections['k']['last']       = ($this->_sections['k']['iteration'] == $th
             <?php endif; ?>
         </div>
     </div>
-    
+
     <div class="row">
         <div class="col-12 mt-5">
             <h2 class="h4 mb-3 text-dark">Trouver des produits similaires dans notre catalogue :</h2>
@@ -136,20 +144,21 @@ $this->_sections['i']['index_next'] = $this->_sections['i']['index'] + $this->_s
 $this->_sections['i']['first']      = ($this->_sections['i']['iteration'] == 1);
 $this->_sections['i']['last']       = ($this->_sections['i']['iteration'] == $this->_sections['i']['total']);
 ?>
-                    <li class="breadcrumb-item">
-                                                <a href="<?php echo $this->_tpl_vars['obj']->mLocations[$this->_sections['i']['index']]['link_to_department']; ?>
-" class="text-primary text-decoration-none fw-medium">
-                            <?php echo $this->_tpl_vars['obj']->mLocations[$this->_sections['i']['index']]['department_name']; ?>
+                        <li class="breadcrumb-item">
+                                                        <a href="<?php echo $this->_tpl_vars['obj']->mLocations[$this->_sections['i']['index']]['link_to_department']; ?>
+"
+                                class="text-primary text-decoration-none fw-medium">
+                                <?php echo $this->_tpl_vars['obj']->mLocations[$this->_sections['i']['index']]['department_name']; ?>
 
-                        </a>
-                    </li>
-                    <li class="breadcrumb-item active" aria-current="page">
-                                                <a href="<?php echo $this->_tpl_vars['obj']->mLocations[$this->_sections['i']['index']]['link_to_category']; ?>
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">
+                                                        <a href="<?php echo $this->_tpl_vars['obj']->mLocations[$this->_sections['i']['index']]['link_to_category']; ?>
 " class="text-secondary text-decoration-none">
-                            <?php echo $this->_tpl_vars['obj']->mLocations[$this->_sections['i']['index']]['category_name']; ?>
+                                <?php echo $this->_tpl_vars['obj']->mLocations[$this->_sections['i']['index']]['category_name']; ?>
 
-                        </a>
-                    </li>
+                            </a>
+                        </li>
                     <?php endfor; endif; ?>
                 </ol>
             </nav>

@@ -309,4 +309,116 @@ class Catalog
     // Exécuter la requête et retourner les résultats
     return DatabaseHandler::GetOne($sql, $params);
   }
+  // Récupère tous les départements avec leurs descriptions
+  public static function GetDepartmentsWithDescriptions()
+  {
+    // Construire la requête SQL
+    $sql = 'CALL catalog_get_departments()';
+    // Exécuter la requête et retourner les résultats
+    return DatabaseHandler::GetAll($sql);
+  }
+
+  // Ajouter un département
+  public static function AddDepartment($departmentName, $departmentDescription)
+  {
+    // Construire la requête SQL
+    $sql = 'CALL catalog_add_department(:department_name,
+:department_description)';
+    // Construire le tableau de paramètres
+    $params = array(
+      ':department_name' => $departmentName,
+      ':department_description' => $departmentDescription
+    );
+    // Exécuter la requête
+    DatabaseHandler::Execute($sql, $params);
+  }
+
+  // Met à jour les détails d'un département
+  public static function UpdateDepartment(
+    $departmentId,
+    $departmentName,
+    $departmentDescription
+  ) {
+    // Construire la requête SQL
+    $sql = 'CALL catalog_update_department(:department_id, :department_name,
+:department_description)';
+    // Construire le tableau de paramètres
+    $params = array(
+      ':department_id' => $departmentId,
+      ':department_name' => $departmentName,
+      ':department_description' => $departmentDescription
+    );
+    // Exécuter la requête
+    DatabaseHandler::Execute($sql, $params);
+  }
+
+  // Supprime un département
+  public static function DeleteDepartment($departmentId)
+  {
+    // Construire la requête SQL
+    $sql = 'CALL catalog_delete_department(:department_id)';
+    // Construire le tableau de paramètres
+    $params = array(':department_id' => $departmentId);
+    // Exécuter la requête et retourner les résultats
+    return DatabaseHandler::GetOne($sql, $params);
+  }
+  // Obtient les catégories d'un département
+  public static function GetDepartmentCategories($departmentId)
+  {
+    // Construire la requête SQL
+    $sql = 'CALL catalog_get_department_categories(:department_id)';
+    // Construire le tableau de paramètres
+    $params = array(':department_id' => $departmentId);
+    // Exécuter la requête et retourner les résultats
+    return DatabaseHandler::GetAll($sql, $params);
+  }
+
+  // Ajoute une catégorie
+  public static function AddCategory(
+    $departmentId,
+    $categoryName,
+    $categoryDescription
+  ) {
+    // Construire la requête SQL
+    $sql = 'CALL catalog_add_category(:department_id, :category_name,
+:category_description)';
+    // Construire le tableau de paramètres
+    $params = array(
+      ':department_id' => $departmentId,
+      ':category_name' => $categoryName,
+      ':category_description' => $categoryDescription
+    );
+    // Exécuter la requête
+    DatabaseHandler::Execute($sql, $params);
+  }
+
+  // Met à jour une catégorie
+  public static function UpdateCategory(
+    $categoryId,
+    $categoryName,
+    $categoryDescription
+  ) {
+    // Construire la requête SQL
+    $sql = 'CALL catalog_update_category(:category_id, :category_name,
+:category_description)';
+    // Construire le tableau de paramètres
+    $params = array(
+      ':category_id' => $categoryId,
+      ':category_name' => $categoryName,
+      ':category_description' => $categoryDescription
+    );
+    // Exécuter la requête
+    DatabaseHandler::Execute($sql, $params);
+  }
+
+  // Supprime une catégorie
+  public static function DeleteCategory($categoryId)
+  {
+    // Construire la requête SQL
+    $sql = 'CALL catalog_delete_category(:category_id)';
+    // Construire le tableau de paramètres
+    $params = array(':category_id' => $categoryId);
+    // Exécuter la requête et retourner les résultats
+    return DatabaseHandler::GetOne($sql, $params);
+  }
 }

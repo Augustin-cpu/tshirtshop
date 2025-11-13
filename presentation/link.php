@@ -1,7 +1,7 @@
 <?php
 class Link
 {
-    public static function Build($link)
+    public static function Build($link, $type = 'http')
     {
         $base = 'http://' . getenv('SERVER_NAME');
 
@@ -94,8 +94,10 @@ class Link
     public static function CheckRequest()
     {
         $proper_url = '';
-
-        if (isset($_GET['Search']) || isset($_GET['SearchResults'])) {
+        if (
+            isset($_GET['Search']) || isset($_GET['SearchResults']) ||
+            isset($_GET['AddProduct'])
+        ) {
             return;
         }
         // Obtenir l'URL appropriée pour les pages de catégorie
@@ -181,5 +183,35 @@ class Link
         $string = preg_replace('#[-_ ]+#', '-', $string);
         // Retourner la chaîne modifiée
         return strtolower($string);
+    }
+    // Créer un lien Ajouter au panier
+    public static function ToAddProduct($productId)
+    {
+        return self::Build('index.php?AddProduct=' . $productId);
+    }
+    // Créer un lien vers la page d'administration
+    public static function ToAdmin($params = '')
+    {
+        $link = 'admin.php';
+        if ($params != '')
+            $link .= '?' . $params;
+        return self::Build($link, 'http');
+    }
+
+    // Créer un lien de déconnexion
+    public static function ToLogout()
+    {
+        return self::ToAdmin('Page=Logout');
+    }
+    // Crée un lien vers la page d'administration des départements
+    public static function ToDepartmentsAdmin()
+    {
+        return self::ToAdmin('Page=Departments');
+    }
+    // Crée un lien vers la page d'administration des catégories
+    public static function ToDepartmentCategoriesAdmin($departmentId)
+    {
+        $link = 'Page=Categories&DepartmentId=' . $departmentId;
+        return self::ToAdmin($link);
     }
 }

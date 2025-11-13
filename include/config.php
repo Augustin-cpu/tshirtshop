@@ -45,8 +45,21 @@ define('VIRTUAL_LOCATION', '/tshirtshop/');
 
 // Configurer les options d'affichage des listes de produits
 define('SHORT_PRODUCT_DESCRIPTION_LENGTH', 150);
-define('PRODUCTS_PER_PAGE', 4);
+define('PRODUCTS_PER_PAGE', 3);
 
 /* Longueur minimale des mots pour les recherches ; cette constante doit être maintenue
 en synchronisation avec la variable MySQL ft_min_word_len */
 define('FT_MIN_WORD_LEN', 4);
+
+// Configuration PayPal
+define('PAYPAL_URL', 'https://www.paypal.com/cgi-bin/webscr');
+define('PAYPAL_EMAIL', 'youremail@example.com');
+define('PAYPAL_CURRENCY_CODE', 'USD');
+define('PAYPAL_RETURN_URL', 'http://www.example.com');
+define('PAYPAL_CANCEL_RETURN_URL', 'http://www.example.com');
+// Nous activons et forçons SSL lorsque ceci est défini sur autre chose que 'no'
+define('USE_SSL', 'yes');
+
+// Informations de connexion de l'administrateur
+define('ADMIN_USERNAME', 'tshirtshopadmin');
+define('ADMIN_PASSWORD', 'tshirtshopadmin');

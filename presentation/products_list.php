@@ -74,7 +74,6 @@ class ProductsList
       if (!(count($search_results['products']) > 0))
         $this->mSearchDescription .=
           '<p class="description">Votre recherche n\'a donné aucun résultat.</p>';
-
     }
     // Si l'on navigue dans une catégorie
     elseif (isset($this->_mCategoryId)) {
@@ -164,7 +163,9 @@ class ProductsList
       if ($this->mProducts[$i]['thumbnail'])
         $this->mProducts[$i]['thumbnail'] =
           Link::Build('images/product_images/' . $this->mProducts[$i]['thumbnail']);
-      
+      // Create the Add to Cart link
+      $this->mProducts[$i]['link_to_add_product'] =
+        Link::ToAddProduct($this->mProducts[$i]['product_id']);
       $this->mProducts[$i]['attributes'] =
         Catalog::GetProductAttributes($this->mProducts[$i]['product_id']);
     }

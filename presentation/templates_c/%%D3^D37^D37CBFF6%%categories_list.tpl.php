@@ -1,12 +1,12 @@
-<?php /* Smarty version 2.6.32, created on 2025-11-02 09:02:54
+<?php /* Smarty version 2.6.32, created on 2025-11-11 06:10:57
          compiled from categories_list.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
 smarty_core_load_plugins(array('plugins' => array(array('function', 'load_presentation_object', 'categories_list.tpl', 2, false),)), $this); ?>
 <?php echo smarty_function_load_presentation_object(array('filename' => 'categories_list','assign' => 'obj'), $this);?>
 
 <div class="box">
-  <p class="box-title">Choisir une catégorie</p>
-  <ul class="list-group">
+  <p class="box-title">Choose a Category</p>
+  <ul>
   <?php unset($this->_sections['i']);
 $this->_sections['i']['name'] = 'i';
 $this->_sections['i']['loop'] = is_array($_loop=$this->_tpl_vars['obj']->mCategories) ? count($_loop) : max(0, (int)$_loop); unset($_loop);
@@ -33,12 +33,12 @@ $this->_sections['i']['last']       = ($this->_sections['i']['iteration'] == $th
 ?>
     <?php $this->assign('selected', ""); ?>
     <?php if (( $this->_tpl_vars['obj']->mSelectedCategory == $this->_tpl_vars['obj']->mCategories[$this->_sections['i']['index']]['category_id'] )): ?>
-      <?php $this->assign('selected', "class=\"text-decoration-none text-dark\""); ?>
+      <?php $this->assign('selected', "class=\"selected\""); ?>
     <?php endif; ?>
-    <li class="list-group-item list-group-item-action">
+    <li>
       <a <?php echo $this->_tpl_vars['selected']; ?>
  href="<?php echo $this->_tpl_vars['obj']->mCategories[$this->_sections['i']['index']]['link_to_category']; ?>
-" class="text-decoration-none text-dark">
+">
         <?php echo $this->_tpl_vars['obj']->mCategories[$this->_sections['i']['index']]['name']; ?>
 
       </a>
