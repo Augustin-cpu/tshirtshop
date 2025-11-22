@@ -14,10 +14,6 @@ sessions/
 # Log files
 *.log
 
-# --- AJOUTS RECOMMANDÉS ---
-
-# Configuration (Sécurité : ne jamais commiter les mots de passe)
-include/configs/config.php
 
 # Dumps de base de données (souvent lourds et conflictuels)
 *.sql
