@@ -6,7 +6,6 @@
 
 # Smarty template cache
 presentation/templates_c/*
-.htaccess
 
 # Session files
 sessions/
