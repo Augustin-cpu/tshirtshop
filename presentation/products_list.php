@@ -11,6 +11,8 @@ class ProductsList
   public $mSearchDescription;
   public $mAllWords = 'off';
   public $mSearchString;
+  public $mEditActionTarget;
+  public $mShowEditButton;
   // Membres privés
   private $_mDepartmentId;
   private $_mCategoryId;
@@ -40,10 +42,45 @@ class ProductsList
 
     // Enregistrer la requête de page pour la fonctionnalité "Continuer mes achats"
     $_SESSION['link_to_continue_shopping'] = $_SERVER['QUERY_STRING'];
+      // Show Edit button for administrators
+    if (!(isset ($_SESSION['admin_logged'])) ||
+        $_SESSION['admin_logged'] != true)
+        $this->mShowEditButton = false;
+    else
+        $this->mShowEditButton = true;
   }
 
   public function init()
   {
+      // Prepare the Edit button
+      $this->mEditActionTarget =
+          Link::Build(str_replace(VIRTUAL_LOCATION, '', getenv('REQUEST_URI')));
+      if (isset ($_SESSION['admin_logged']) &&
+          $_SESSION['admin_logged'] == true &&
+          isset ($_POST['product_id']))
+      {
+          if (isset ($this->_mDepartmentId) && isset ($this->_mCategoryId))
+              header('Location: ' .
+                  htmlspecialchars_decode(
+                      Link::ToProductAdmin($this->_mDepartmentId,
+                          $this->_mCategoryId,
+                          (int)$_POST['product_id'])));
+          else
+          {
+              $product_locations =
+                  Catalog::GetProductLocations((int)$_POST['product_id']);
+              if (count($product_locations) > 0)
+              {
+                  $department_id = $product_locations[0]['department_id'];
+                  $category_id = $product_locations[0]['category_id'];
+                  header('Location: ' .
+                      htmlspecialchars_decode(
+                          Link::ToProductAdmin($department_id,
+                              $category_id,
+                              (int)$_POST['product_id'])));
+              }
+          }
+      }
     /* --- 1. CHARGEMENT DES PRODUITS --- */
 
     // Si l'on recherche dans le catalogue
@@ -163,9 +200,9 @@ class ProductsList
       if ($this->mProducts[$i]['thumbnail'])
         $this->mProducts[$i]['thumbnail'] =
           Link::Build('images/product_images/' . $this->mProducts[$i]['thumbnail']);
-      // Create the Add to Cart link
-      $this->mProducts[$i]['link_to_add_product'] =
-        Link::ToAddProduct($this->mProducts[$i]['product_id']);
+        // Créer le lien Ajouter au Panier
+        $this->mProducts[$i]['link_to_add_product'] =
+        Link::ToCart(ADD_PRODUCT, $this->mProducts[$i]['product_id']);
       $this->mProducts[$i]['attributes'] =
         Catalog::GetProductAttributes($this->mProducts[$i]['product_id']);
     }

@@ -26,4 +26,6 @@ RewriteRule ^.*-d([0-9]+)/.*-c([0-9]+)/?$ index.php?DepartmentId=$1&CategoryId=$
 # Rediriger les pages de département (avec et sans pagination)
 RewriteRule ^.*-d([0-9]+)/page-([0-9]+)/?$ index.php?DepartmentId=$1&Page=$2 [L]
 RewriteRule ^.*-d([0-9]+)/?$ index.php?DepartmentId=$1 [L]
+# Réécriture des pages de détails du panier
+RewriteRule ^cart-details/?$ index.php?CartAction [L]
 </IfModule>

@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.32, created on 2025-11-12 16:47:27
+<?php /* Smarty version 2.6.32, created on 2025-11-21 08:44:01
          compiled from products_list.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
 smarty_core_load_plugins(array('plugins' => array(array('function', 'load_presentation_object', 'products_list.tpl', 2, false),)), $this); ?>
@@ -120,7 +120,7 @@ $this->_sections['k']['last']       = ($this->_sections['k']['iteration'] == $th
               <?php endif; ?>
             </p>
                         <form class="add-product-form" target="_self" method="post" action="<?php echo $this->_tpl_vars['obj']->mProducts[$this->_sections['k']['index']]['link_to_add_product']; ?>
-">
+" onsubmit="return addProductToCart(this);">
                             <p class="attributes">
 
                                 <?php unset($this->_sections['l']);
@@ -167,10 +167,20 @@ $this->_sections['l']['last']       = ($this->_sections['l']['iteration'] == $th
 
             <?php endfor; endif; ?>
           </p>
-                    <p>
-            <input type="submit" name="submit" value="Add to Cart" />
-          </p>
+                          <p>
+                    <input type="submit" name="add_to_cart" value="Ajouter au Panier" />
+                </p>
         </form>
+                            <?php if ($this->_tpl_vars['obj']->mShowEditButton): ?>
+                  <form action="<?php echo $this->_tpl_vars['obj']->mEditActionTarget; ?>
+" target="_self"
+                        method="post" class="edit-form">
+                      <input type="hidden" name="product_id"
+                             value="<?php echo $this->_tpl_vars['obj']->mProducts[$this->_sections['k']['index']]['product_id']; ?>
+" />
+                      <input type="submit" name="submit" value="Edit Product Details" />
+                  </form>
+              <?php endif; ?>
       </td>
       <?php if ($this->_sections['k']['index'] % 2 != 0 && ! $this->_sections['k']['first'] || $this->_sections['k']['last']): ?>
     </tr>

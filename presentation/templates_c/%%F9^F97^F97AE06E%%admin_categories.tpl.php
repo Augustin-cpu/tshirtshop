@@ -1,27 +1,27 @@
-<?php /* Smarty version 2.6.32, created on 2025-11-13 17:18:28
+<?php /* Smarty version 2.6.32, created on 2025-11-20 11:36:30
          compiled from admin_categories.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
 smarty_core_load_plugins(array('plugins' => array(array('function', 'load_presentation_object', 'admin_categories.tpl', 2, false),)), $this); ?>
 <?php echo smarty_function_load_presentation_object(array('filename' => 'admin_categories','assign' => 'obj'), $this);?>
 
-<form method="post" action="<?php echo $this->_tpl_vars['obj']->mLinkToDepartmentCategoriesAdmin; ?>
+<form method="post"
+      action="<?php echo $this->_tpl_vars['obj']->mLinkToDepartmentCategoriesAdmin; ?>
 ">
     <h3>
-        Modification des catégories pour le département : <?php echo $this->_tpl_vars['obj']->mDepartmentName; ?>
+        Editing categories for department: <?php echo $this->_tpl_vars['obj']->mDepartmentName; ?>
  [
         <a href="<?php echo $this->_tpl_vars['obj']->mLinkToDepartmentsAdmin; ?>
-">retour aux départements ...</a> ]
+">back to departments ...</a> ]
     </h3>
     <?php if ($this->_tpl_vars['obj']->mErrorMessage): ?><p class="error"><?php echo $this->_tpl_vars['obj']->mErrorMessage; ?>
 </p><?php endif; ?>
     <?php if ($this->_tpl_vars['obj']->mCategoriesCount == 0): ?>
-        <p class="no-items-found">Il n'y a aucune catégorie dans ce département !</p>
+        <p class="no-items-found">There are no categories in this department!</p>
     <?php else: ?>
         <table class="tss-table">
             <tr>
-                <th width="200">Nom de la Catégorie</th>
-                <th>Description de la Catégorie</th>
-                <th width="240"> </th>
+                <th width="200">Category Name</th>
+                <th>Category Description</th>
             </tr>
             <?php unset($this->_sections['i']);
 $this->_sections['i']['name'] = 'i';
@@ -50,7 +50,8 @@ $this->_sections['i']['last']       = ($this->_sections['i']['iteration'] == $th
                 <?php if ($this->_tpl_vars['obj']->mEditItem == $this->_tpl_vars['obj']->mCategories[$this->_sections['i']['index']]['category_id']): ?>
                     <tr>
                         <td>
-                            <input type="text" name="name" value="<?php echo $this->_tpl_vars['obj']->mCategories[$this->_sections['i']['index']]['name']; ?>
+                            <input type="text" name="name"
+                                   value="<?php echo $this->_tpl_vars['obj']->mCategories[$this->_sections['i']['index']]['name']; ?>
 " size="30" />
                         </td>
                         <td>
@@ -58,15 +59,19 @@ $this->_sections['i']['last']       = ($this->_sections['i']['iteration'] == $th
 
                         </td>
                         <td>
-                            <input type="submit" name="submit_edit_prod_<?php echo $this->_tpl_vars['obj']->mCategories[$this->_sections['i']['index']]['category_id']; ?>
+                            <input type="submit"
+                                   name="submit_edit_prod_<?php echo $this->_tpl_vars['obj']->mCategories[$this->_sections['i']['index']]['category_id']; ?>
 "
-                                value="Modifier Produits" />
-                            <input type="submit" name="submit_update_cat_<?php echo $this->_tpl_vars['obj']->mCategories[$this->_sections['i']['index']]['category_id']; ?>
+                                   value="Edit Products" />
+                            <input type="submit"
+                                   name="submit_update_cat_<?php echo $this->_tpl_vars['obj']->mCategories[$this->_sections['i']['index']]['category_id']; ?>
 "
-                                value="Mettre à jour" />
-                            <input type="submit" name="cancel" value="Annuler" />
-                            <input type="submit" name="submit_delete_cat_<?php echo $this->_tpl_vars['obj']->mCategories[$this->_sections['i']['index']]['category_id']; ?>
-" value="Supprimer" />
+                                   value="Update" />
+                            <input type="submit" name="cancel" value="Cancel" />
+                            <input type="submit"
+                                   name="submit_delete_cat_<?php echo $this->_tpl_vars['obj']->mCategories[$this->_sections['i']['index']]['category_id']; ?>
+"
+                                   value="Delete" />
                         </td>
                     </tr>
                 <?php else: ?>
@@ -76,21 +81,27 @@ $this->_sections['i']['last']       = ($this->_sections['i']['iteration'] == $th
                         <td><?php echo $this->_tpl_vars['obj']->mCategories[$this->_sections['i']['index']]['description']; ?>
 </td>
                         <td>
-                            <input type="submit" name="submit_edit_prod_<?php echo $this->_tpl_vars['obj']->mCategories[$this->_sections['i']['index']]['category_id']; ?>
+                            <input type="submit"
+                                   name="submit_edit_prod_<?php echo $this->_tpl_vars['obj']->mCategories[$this->_sections['i']['index']]['category_id']; ?>
 "
-                                value="Modifier Produits" />
-                            <input type="submit" name="submit_edit_cat_<?php echo $this->_tpl_vars['obj']->mCategories[$this->_sections['i']['index']]['category_id']; ?>
-" value="Modifier" />
-                            <input type="submit" name="submit_delete_cat_<?php echo $this->_tpl_vars['obj']->mCategories[$this->_sections['i']['index']]['category_id']; ?>
-" value="Supprimer" />
+                                   value="Edit Products" />
+                            <input type="submit"
+                                   name="submit_edit_cat_<?php echo $this->_tpl_vars['obj']->mCategories[$this->_sections['i']['index']]['category_id']; ?>
+"
+                                   value="Edit" />
+                            <input type="submit"
+                                   name="submit_delete_cat_<?php echo $this->_tpl_vars['obj']->mCategories[$this->_sections['i']['index']]['category_id']; ?>
+"
+                                   value="Delete" />
                         </td>
                     </tr>
                 <?php endif; ?>
             <?php endfor; endif; ?>
         </table>
     <?php endif; ?>
-    <h3>Ajouter une nouvelle catégorie :</h3>
-    <input type="text" name="category_name" value="[nom]" size="30" />
-    <input type="text" name="category_description" value="[description]" size="60" />
-    <input type="submit" name="submit_add_cat_0" value="Ajouter" />
+    <h3>Add new category:</h3>
+    <input type="text" name="category_name" value="[name]" size="30" />
+    <input type="text" name="category_description" value="[description]"
+           size="60" />
+    <input type="submit" name="submit_add_cat_0" value="Add" />
 </form>

@@ -52,8 +52,7 @@ en synchronisation avec la variable MySQL ft_min_word_len */
 define('FT_MIN_WORD_LEN', 4);
 
 // Configuration PayPal
-define('PAYPAL_URL', 'https://www.paypal.com/cgi-bin/webscr');
-define('PAYPAL_EMAIL', 'youremail@example.com');
+define('PAYPAL_URL', 'https://www.paypal.com/xclick/business=youremail@example.com');
 define('PAYPAL_CURRENCY_CODE', 'USD');
 define('PAYPAL_RETURN_URL', 'http://www.example.com');
 define('PAYPAL_CANCEL_RETURN_URL', 'http://www.example.com');
@@ -63,3 +62,13 @@ define('USE_SSL', 'yes');
 // Informations de connexion de l'administrateur
 define('ADMIN_USERNAME', 'tshirtshopadmin');
 define('ADMIN_PASSWORD', 'tshirtshopadmin');
+// Types d'articles du panier d'achat
+define('GET_CART_PRODUCTS', 1);
+define('GET_CART_SAVED_PRODUCTS', 2);
+
+// Actions du panier
+define('ADD_PRODUCT', 1);
+define('REMOVE_PRODUCT', 2);
+define('UPDATE_PRODUCTS_QUANTITIES', 3);
+define('SAVE_PRODUCT_FOR_LATER', 4);
+define('MOVE_PRODUCT_TO_CART', 5);

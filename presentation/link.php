@@ -91,14 +91,14 @@ class Link
         return self::Build($link);
     }
     // Redirige vers l'URL appropriée si ce n'est pas déjà le cas
+    // Redirige vers l'URL appropriée si ce n'est pas déjà le cas
     public static function CheckRequest()
     {
         $proper_url = '';
-        if (
-            isset($_GET['Search']) || isset($_GET['SearchResults']) ||
-            isset($_GET['AddProduct'])
-        ) {
-            return;
+        if (isset ($_GET['Search']) || isset($_GET['SearchResults']) ||
+            isset ($_GET['CartAction']) || isset ($_GET['AjaxRequest']))
+        {
+            return ;
         }
         // Obtenir l'URL appropriée pour les pages de catégorie
         elseif (isset($_GET['DepartmentId']) && isset($_GET['CategoryId'])) {
@@ -184,10 +184,35 @@ class Link
         // Retourner la chaîne modifiée
         return strtolower($string);
     }
-    // Créer un lien Ajouter au panier
-    public static function ToAddProduct($productId)
+
+    // Créer un lien vers le panier d'achat
+    public static function ToCart($action = 0, $target = null)
     {
-        return self::Build('index.php?AddProduct=' . $productId);
+        $link = '';
+        switch ($action)
+        {
+            case ADD_PRODUCT:
+                $link = 'index.php?CartAction=' . ADD_PRODUCT . '&ItemId=' . $target;
+                break;
+            case REMOVE_PRODUCT:
+                $link = 'index.php?CartAction=' .
+                    REMOVE_PRODUCT . '&ItemId=' . $target;
+                break;
+            case UPDATE_PRODUCTS_QUANTITIES:
+                $link = 'index.php?CartAction=' . UPDATE_PRODUCTS_QUANTITIES;
+                break;
+            case SAVE_PRODUCT_FOR_LATER:
+                $link = 'index.php?CartAction=' .
+                    SAVE_PRODUCT_FOR_LATER . '&ItemId=' . $target;
+                break;
+            case MOVE_PRODUCT_TO_CART:
+                $link = 'index.php?CartAction=' .
+                    MOVE_PRODUCT_TO_CART . '&ItemId=' . $target;
+                break;
+            default:
+                $link = 'cart-details/';
+        }
+        return self::Build($link);
     }
     // Créer un lien vers la page d'administration
     public static function ToAdmin($params = '')
@@ -212,6 +237,48 @@ class Link
     public static function ToDepartmentCategoriesAdmin($departmentId)
     {
         $link = 'Page=Categories&DepartmentId=' . $departmentId;
+        return self::ToAdmin($link);
+    }
+    // Crée le lien vers la page d'administration des attributs
+    public static function ToAttributesAdmin()
+    {
+        return self::ToAdmin('Page=Attributes');
+    }
+    // Crée le lien vers la page d'administration des valeurs d'attribut
+    public static function ToAttributeValuesAdmin($attributeId)
+    {
+        $link = 'Page=AttributeValues&AttributeId=' . $attributeId;
+        return self::ToAdmin($link);
+    }
+    // Crée un lien vers la page d'administration des produits
+    public static function ToCategoryProductsAdmin($departmentId, $categoryId)
+    {
+        $link = 'Page=Products&DepartmentId=' . $departmentId .
+            '&CategoryId=' . $categoryId;
+        return self::ToAdmin($link);
+    }
+    // Crée un lien vers la page d'administration des détails du produit
+    public static function ToProductAdmin($departmentId, $categoryId, $productId)
+    {
+        $link = 'Page=ProductDetails&DepartmentId=' . $departmentId .
+            '&CategoryId=' . $categoryId . '&ProductId=' . $productId;
+        return self::ToAdmin($link);
+    }
+    // Créer un lien vers la page d'administration des paniers d'achat
+    public static function ToCartsAdmin()
+    {
+        return self::ToAdmin('Page=Carts');
+    }
+    // Créer le lien vers la page d'administration des commandes
+    public static function ToOrdersAdmin()
+    {
+        return self::ToAdmin('Page=orders');
+    }
+
+// Créer le lien vers la page d'administration des détails de la commande
+    public static function ToOrderDetailsAdmin($orderId)
+    {
+        $link = 'Page=OrderDetails&OrderId=' . $orderId;
         return self::ToAdmin($link);
     }
 }

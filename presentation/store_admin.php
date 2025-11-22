@@ -37,6 +37,20 @@ class StoreAdmin
                 $this->mContentsCell = 'admin_departments.tpl';
             elseif ($admin_page == 'Categories')
                 $this->mContentsCell = 'admin_categories.tpl';
+            elseif ($admin_page == 'Attributes')
+                $this->mContentsCell = 'admin_attributes.tpl';
+            elseif ($admin_page == 'AttributeValues')
+                $this->mContentsCell = 'admin_attribute_values.tpl';
+            elseif ($admin_page == 'Products')
+                $this->mContentsCell = 'admin_products.tpl';
+            elseif ($admin_page == 'ProductDetails') // <--- Ajouté
+                $this->mContentsCell = 'admin_product_details.tpl';
+            elseif ($admin_page == 'Carts')
+                $this->mContentsCell = 'admin_carts.tpl';
+            elseif ($admin_page == 'orders')
+                $this->mContentsCell = 'admin_orders.tpl';
+            elseif ($admin_page == 'OrderDetails')
+                $this->mContentsCell = 'admin_order_details.tpl';
         }
     }
 }

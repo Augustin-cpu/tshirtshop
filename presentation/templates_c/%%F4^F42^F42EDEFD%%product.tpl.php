@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.32, created on 2025-11-12 16:48:10
+<?php /* Smarty version 2.6.32, created on 2025-11-21 08:13:05
          compiled from product.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
 smarty_core_load_plugins(array('plugins' => array(array('function', 'load_presentation_object', 'product.tpl', 1, false),array('modifier', 'string_format', 'product.tpl', 43, false),)), $this); ?>
@@ -58,7 +58,8 @@ smarty_core_load_plugins(array('plugins' => array(array('function', 'load_presen
                 <?php endif; ?>
             </div>
                         <form class="add-product-form" target="_self" method="post" action="<?php echo $this->_tpl_vars['obj']->mProduct['link_to_add_product']; ?>
-">
+" action="<?php echo $this->_tpl_vars['obj']->mProduct['link_to_add_product']; ?>
+" onsubmit="return addProductToCart(this);">
                                 <p class="attributes">
                                         <?php unset($this->_sections['k']);
 $this->_sections['k']['name'] = 'k';
@@ -100,10 +101,19 @@ $this->_sections['k']['last']       = ($this->_sections['k']['iteration'] == $th
                     <?php endif; ?>
                     <?php endfor; endif; ?>
                 </p>
-                                <button type="submit" class="btn btn-sm btn-warning shadow-sm mb-4 text-white p-2" name="submit">
-                    <i class="bi bi-bag-plus me-2"></i> Add to Cart
-                </button>
+                                <p>
+                    <input type="submit" name="add_to_cart" value="Ajouter au Panier" />
+                </p>
             </form>
+                        <?php if ($this->_tpl_vars['obj']->mShowEditButton): ?>
+                <form action="<?php echo $this->_tpl_vars['obj']->mEditActionTarget; ?>
+" target="_self"
+                      method="post" class="edit-form">
+                    <p>
+                        <input type="submit" name="submit_edit" value="Edit Product Details" />
+                    </p>
+                </form>
+            <?php endif; ?>
                         <?php if ($this->_tpl_vars['obj']->mLinkToContinueShopping): ?>
                 <div class="mb-4">
                     <a href="<?php echo $this->_tpl_vars['obj']->mLinkToContinueShopping; ?>

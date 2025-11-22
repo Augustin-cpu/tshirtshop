@@ -55,7 +55,7 @@
                 {/if}
             </div>
             {* The Add to Cart form *}
-            <form class="add-product-form" target="_self" method="post" action="{$obj->mProduct.link_to_add_product}">
+            <form class="add-product-form" target="_self" method="post" action="{$obj->mProduct.link_to_add_product}" action="{$obj->mProduct.link_to_add_product}" onsubmit="return addProductToCart(this);">
                 {* Générer la liste des valeurs d'attributs *}
                 <p class="attributes">
                     {* Analyser la liste des attributs et des valeurs d'attributs *}
@@ -80,10 +80,19 @@ $obj->mProduct.attributes[k.index_next].attribute_name}
                     {/section}
                 </p>
                 {* Bouton Action (Ajouter au panier - non implémenté ici mais utile pour le design) *}
-                <button type="submit" class="btn btn-sm btn-warning shadow-sm mb-4 text-white p-2" name="submit">
-                    <i class="bi bi-bag-plus me-2"></i> Add to Cart
-                </button>
+                <p>
+                    <input type="submit" name="add_to_cart" value="Ajouter au Panier" />
+                </p>
             </form>
+            {* Show edit button for administrators *}
+            {if $obj->mShowEditButton}
+                <form action="{$obj->mEditActionTarget}" target="_self"
+                      method="post" class="edit-form">
+                    <p>
+                        <input type="submit" name="submit_edit" value="Edit Product Details" />
+                    </p>
+                </form>
+            {/if}
             {* Lien Continuer mes achats *}
             {if $obj->mLinkToContinueShopping}
                 <div class="mb-4">

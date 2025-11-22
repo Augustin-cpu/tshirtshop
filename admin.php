@@ -14,7 +14,10 @@ require_once PRESENTATION_DIR . 'link.php';
 // Charger le gestionnaire de base de données
 require_once BUSINESS_DIR . 'database_handler.php';
 // Charger la couche métier
+// Charger la Couche Métier (Business Tier)
 require_once BUSINESS_DIR . 'catalog.php';
+require_once BUSINESS_DIR . 'shopping_cart.php';
+require_once BUSINESS_DIR . 'orders.php';
 // Charger le fichier de template Smarty
 $application = new Application();
 // Afficher la page

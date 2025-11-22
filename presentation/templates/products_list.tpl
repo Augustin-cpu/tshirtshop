@@ -55,7 +55,7 @@
               {/if}
             </p>
             {* The Add to Cart form *}
-            <form class="add-product-form" target="_self" method="post" action="{$obj->mProducts[k].link_to_add_product}">
+            <form class="add-product-form" target="_self" method="post" action="{$obj->mProducts[k].link_to_add_product}" onsubmit="return addProductToCart(this);">
               {* Generate the list of attribute values *}
               <p class="attributes">
 
@@ -85,10 +85,19 @@
             {/section}
           </p>
           {* Add the submit button and close the form *}
-          <p>
-            <input type="submit" name="submit" value="Add to Cart" />
-          </p>
+                <p>
+                    <input type="submit" name="add_to_cart" value="Ajouter au Panier" />
+                </p>
         </form>
+              {* Show Edit button for administrators *}
+              {if $obj->mShowEditButton}
+                  <form action="{$obj->mEditActionTarget}" target="_self"
+                        method="post" class="edit-form">
+                      <input type="hidden" name="product_id"
+                             value="{$obj->mProducts[k].product_id}" />
+                      <input type="submit" name="submit" value="Edit Product Details" />
+                  </form>
+              {/if}
       </td>
       {if $smarty.section.k.index % 2 != 0 && !$smarty.section.k.first ||
         $smarty.section.k.last}

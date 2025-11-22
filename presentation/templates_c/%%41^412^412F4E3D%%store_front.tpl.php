@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.32, created on 2025-11-12 16:47:27
+<?php /* Smarty version 2.6.32, created on 2025-11-21 08:40:33
          compiled from store_front.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
 smarty_core_load_plugins(array('plugins' => array(array('function', 'config_load', 'store_front.tpl', 2, false),array('function', 'load_presentation_object', 'store_front.tpl', 3, false),)), $this); ?>
@@ -11,13 +11,15 @@ smarty_core_load_plugins(array('plugins' => array(array('function', 'config_load
 <html>
 
 <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title><?php echo $this->_tpl_vars['obj']->mPageTitle; ?>
+</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link href="<?php echo $this->_tpl_vars['obj']->mSiteUrl; ?>
 styles/tshirtshop.css" type="text/css" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="<?php echo $this->_tpl_vars['obj']->mSiteUrl; ?>
-styles/yui/reset-fonts-grids.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <script type="text/javascript" src="<?php echo $this->_tpl_vars['obj']->mSiteUrl; ?>
+scripts/ajax.js"></script>
 </head>
 
 <body class="bg-light">
@@ -53,24 +55,11 @@ $this->_smarty_include(array('smarty_include_tpl_file' => $this->_tpl_vars['obj'
 $this->_tpl_vars = $_smarty_tpl_vars;
 unset($_smarty_tpl_vars);
  ?>
-                            <div class="view-cart">
-                                <form target="_self" method="post" action="<?php echo @PAYPAL_URL; ?>
-">
-                                    <input type="hidden" name="cmd" value="_cart" />
-                                    <input type="hidden" name="business" value="<?php echo @PAYPAL_EMAIL; ?>
-" />
-                                    <input type="hidden" name="display" value="1" />
-                                    <input type="hidden" name="shopping_url"
-                                        value="<?php echo $this->_tpl_vars['obj']->mPayPalContinueShoppingLink; ?>
-" />
-                                    <input type="hidden" name="return" value="<?php echo @PAYPAL_RETURN_URL; ?>
-" />
-                                    <input type="hidden" name="cancel_return"
-                                        value="<?php echo @PAYPAL_CANCEL_RETURN_URL; ?>
-" />
-                                    <input type="submit" name="view_cart" value="View Cart" />
-                                </form>
-                            </div>
+                            <?php $_smarty_tpl_vars = $this->_tpl_vars;
+$this->_smarty_include(array('smarty_include_tpl_file' => $this->_tpl_vars['obj']->mCartSummaryCell, 'smarty_include_vars' => array()));
+$this->_tpl_vars = $_smarty_tpl_vars;
+unset($_smarty_tpl_vars);
+ ?>
                         </div>
                     </div>
                     <div id="contents" class="container-lg d-flex flex-column justify-content-center p-3">

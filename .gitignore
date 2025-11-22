@@ -1,0 +1,32 @@
+# IDE - JetBrains
+.idea/
+
+# OS Files
+.DS_Store
+
+# Smarty template cache
+presentation/templates_c/*
+.htaccess
+
+# Session files
+sessions/
+
+# Log files
+*.log
+
+# --- AJOUTS RECOMMANDÉS ---
+
+# Configuration (Sécurité : ne jamais commiter les mots de passe)
+include/configs/config.php
+
+# Dumps de base de données (souvent lourds et conflictuels)
+*.sql
+
+# Fichiers système Windows (images)
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Fichiers temporaires d'éditeurs
+*.swp
+*~

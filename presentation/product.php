@@ -7,6 +7,8 @@ class Product
     public $mProductLocations;
     public $mLinkToContinueShopping;
     public $mLocations;
+    public $mEditActionTarget;
+    public $mShowEditButton;
 
     // Éléments privés
     private $_mProductId;
@@ -19,6 +21,12 @@ class Product
             $this->_mProductId = (int)$_GET['ProductId'];
         else
             trigger_error('ProductId non défini');
+        // Show Edit button for administrators
+        if (!(isset ($_SESSION['admin_logged'])) ||
+            $_SESSION['admin_logged'] != true)
+            $this->mShowEditButton = false;
+        else
+            $this->mShowEditButton = true;
     }
 
     public function init()
@@ -68,9 +76,9 @@ class Product
             Catalog::GetProductAttributes($this->mProduct['product_id']);
         // Obtenir les emplacements du produit (Départements/Catégories)
         $this->mLocations = Catalog::GetProductLocations($this->_mProductId);
-        // Create the Add to Cart link
-$this->mProduct['link_to_add_product'] =
-Link::ToAddProduct($this->_mProductId);
+        // Créer le lien Ajouter au Panier
+        $this->mProduct['link_to_add_product'] =
+        Link::ToCart(ADD_PRODUCT, $this->_mProductId);
         if (isset($continue_shopping['DepartmentId']))
             $this->mLinkToContinueShopping =
                 Link::ToDepartment((int)$continue_shopping['DepartmentId'], $page);
@@ -93,6 +101,25 @@ Link::ToAddProduct($this->_mProductId);
                     $this->mLocations[$i]['department_id'],
                     $this->mLocations[$i]['category_id']
                 );
+        }
+        // Prepare the Edit button
+        $this->mEditActionTarget =
+            Link::Build(str_replace(VIRTUAL_LOCATION, '', getenv('REQUEST_URI')));
+        if (isset ($_SESSION['admin_logged']) &&
+            $_SESSION['admin_logged'] == true &&
+            isset ($_POST['submit_edit']))
+        {
+            $product_locations = $this->mLocations;
+            if (count($product_locations) > 0)
+            {
+                $department_id = $product_locations[0]['department_id'];
+                $category_id = $product_locations[0]['category_id'];
+                header('Location: ' .
+                    htmlspecialchars_decode(
+                        Link::ToProductAdmin($department_id,
+                            $category_id,
+                            $this->_mProductId)));
+            }
         }
     }
 }
