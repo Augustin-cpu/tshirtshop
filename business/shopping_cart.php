@@ -180,4 +180,17 @@ class ShoppingCart
 // Exécuter la requête et retourner les résultats
         return DatabaseHandler::GetOne($sql, $params);
     }
+        // Obtenir les recommandations de produits pour le panier d'achat
+        public static function GetRecommendations()
+        {
+// Construire la requête SQL
+            $sql = 'CALL shopping_cart_get_recommendations(
+:cart_id, :short_product_description_length)';
+// Construire le tableau de paramètres
+            $params = array (':cart_id' => self::GetCartId(),
+                ':short_product_description_length' =>
+                    SHORT_PRODUCT_DESCRIPTION_LENGTH);
+// Exécuter la requête et retourner les résultats
+            return DatabaseHandler::GetAll($sql, $params);
+        }
 }

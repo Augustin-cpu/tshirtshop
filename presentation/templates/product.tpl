@@ -130,3 +130,18 @@ $obj->mProduct.attributes[k.index_next].attribute_name}
     </div>
 
 </div>
+{if $obj->mRecommendations}
+    <h2>Les clients qui ont acheté ceci ont aussi acheté :</h2>
+    <ol>
+        {section name=m loop=$obj->mRecommendations}
+            <li>
+                {strip}
+                    <a href="{$obj->mRecommendations[m].link_to_product}">
+                        {$obj->mRecommendations[m].product_name}
+                    </a>
+                {/strip}
+                <span class="list"> - {$obj->mRecommendations[m].description}</span>
+            </li>
+        {/section}
+    </ol>
+{/if}

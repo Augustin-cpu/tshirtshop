@@ -10,7 +10,9 @@ class CartDetails
     public $mIsCartLaterEmpty = 0; // La liste 'enregistrée pour plus tard' est-elle vide ?
     public $mLinkToContinueShopping;
     public $mUpdateCartTarget;
-
+    public $mRecommendations;
+    public $mLinkToCheckout;
+    public $mShowCheckoutLink = false;
 // Attributs privés
     private $_mItemId;
     private $_mCartAction;
@@ -108,22 +110,11 @@ class CartDetails
         /* Calculer le montant total pour le panier d'achat
         avant taxes applicables et/ou frais de livraison */
         $this->mTotalAmount = ShoppingCart::GetTotalAmount();
-        // If the Place Order button was clicked ...
-        if(isset ($_POST['place_order']))
+        // Afficher le lien de paiement dans le panier
+        if ($this->mTotalAmount != 0 && Customer::IsAuthenticated())
         {
-// Create the order and get the order ID
-            $order_id = ShoppingCart::CreateOrder();
-// This will contain the PayPal link
-            $redirect =
-                PAYPAL_URL . '&item_name=TShirtShop Order ' . urlencode('#') . $order_id .
-                '&item_number=' . $order_id .
-                '&amount=' . $this->mTotalAmount .
-                '&currency_code=' . PAYPAL_CURRENCY_CODE .
-                '&return=' . PAYPAL_RETURN_URL .
-                '&cancel_return=' . PAYPAL_CANCEL_RETURN_URL;
-// Redirection to the payment page
-            header('Location: ' . $redirect);
-            exit();
+            $this->mLinkToCheckout = Link::ToCheckout();
+            $this->mShowCheckoutLink = true;
         }
 // Obtenir les produits du panier d'achat
         $this->mCartProducts =
@@ -161,5 +152,12 @@ class CartDetails
                 Link::ToCart(REMOVE_PRODUCT,
                     $this->mSavedCartProducts[$i]['item_id']);
         }
+        // Get product recommendations for the shopping cart
+        $this->mRecommendations =
+            ShoppingCart::GetRecommendations();
+// Create recommended product links
+        for ($i = 0; $i < count($this->mRecommendations); $i++)
+            $this->mRecommendations[$i]['link_to_product'] =
+                Link::ToProduct($this->mRecommendations[$i]['product_id']);
     }
 }

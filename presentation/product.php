@@ -9,7 +9,7 @@ class Product
     public $mLocations;
     public $mEditActionTarget;
     public $mShowEditButton;
-
+    public $mRecommendations;
     // Éléments privés
     private $_mProductId;
 
@@ -79,6 +79,14 @@ class Product
         // Créer le lien Ajouter au Panier
         $this->mProduct['link_to_add_product'] =
         Link::ToCart(ADD_PRODUCT, $this->_mProductId);
+        // Obtenir les recommandations de produits
+        $this->mRecommendations =
+            Catalog::GetRecommendations($this->_mProductId);
+
+// Créer des liens vers les produits recommandés
+        for ($i = 0; $i < count($this->mRecommendations); $i++)
+            $this->mRecommendations[$i]['link_to_product'] =
+                Link::ToProduct($this->mRecommendations[$i]['product_id']);
         if (isset($continue_shopping['DepartmentId']))
             $this->mLinkToContinueShopping =
                 Link::ToDepartment((int)$continue_shopping['DepartmentId'], $page);

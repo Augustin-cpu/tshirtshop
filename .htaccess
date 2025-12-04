@@ -28,4 +28,14 @@ RewriteRule ^.*-d([0-9]+)/page-([0-9]+)/?$ index.php?DepartmentId=$1&Page=$2 [L]
 RewriteRule ^.*-d([0-9]+)/?$ index.php?DepartmentId=$1 [L]
 # Réécriture des pages de détails du panier
 RewriteRule ^cart-details/?$ index.php?CartAction [L]
+# Réécriture des pages d'inscription client
+RewriteRule ^register-customer/?$ index.php?RegisterCustomer [L]
+# Réécriture des pages de détails d'adresse
+RewriteRule ^address-details/?$ index.php?AddressDetails [L]
+# Réécriture des pages de détails de carte de crédit
+RewriteRule ^credit-card-details/?$ index.php?CreditCardDetails [L]
+# Réécriture des pages de détails de compte
+RewriteRule ^account-details/?$ index.php?AccountDetails [L]
+# Réécriture des pages de paiement
+RewriteRule ^checkout/?$ index.php?Checkout [L]
 </IfModule>

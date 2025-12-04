@@ -15,9 +15,13 @@ require_once PRESENTATION_DIR . 'application.php';
 // Charge la classe Link (Mise en évidence)
 require_once PRESENTATION_DIR . 'link.php';
 
-// Charger la Couche Métier
+// Charger la couche métier
 require_once BUSINESS_DIR . 'catalog.php';
 require_once BUSINESS_DIR . 'shopping_cart.php';
+require_once BUSINESS_DIR . 'password_hasher.php';
+require_once BUSINESS_DIR . 'symmetric_crypt.php';
+require_once BUSINESS_DIR . 'secure_card.php';
+require_once BUSINESS_DIR . 'customer.php';
 // Correction d'URL
 Link::CheckRequest();
 // Charger le fichier de modèle Smarty

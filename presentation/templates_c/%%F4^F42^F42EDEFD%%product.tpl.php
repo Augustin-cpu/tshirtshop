@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.32, created on 2025-11-21 08:13:05
+<?php /* Smarty version 2.6.32, created on 2025-11-22 15:27:56
          compiled from product.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
 smarty_core_load_plugins(array('plugins' => array(array('function', 'load_presentation_object', 'product.tpl', 1, false),array('modifier', 'string_format', 'product.tpl', 43, false),)), $this); ?>
@@ -176,3 +176,39 @@ $this->_sections['i']['last']       = ($this->_sections['i']['iteration'] == $th
     </div>
 
 </div>
+<?php if ($this->_tpl_vars['obj']->mRecommendations): ?>
+    <h2>Les clients qui ont acheté ceci ont aussi acheté :</h2>
+    <ol>
+        <?php unset($this->_sections['m']);
+$this->_sections['m']['name'] = 'm';
+$this->_sections['m']['loop'] = is_array($_loop=$this->_tpl_vars['obj']->mRecommendations) ? count($_loop) : max(0, (int)$_loop); unset($_loop);
+$this->_sections['m']['show'] = true;
+$this->_sections['m']['max'] = $this->_sections['m']['loop'];
+$this->_sections['m']['step'] = 1;
+$this->_sections['m']['start'] = $this->_sections['m']['step'] > 0 ? 0 : $this->_sections['m']['loop']-1;
+if ($this->_sections['m']['show']) {
+    $this->_sections['m']['total'] = $this->_sections['m']['loop'];
+    if ($this->_sections['m']['total'] == 0)
+        $this->_sections['m']['show'] = false;
+} else
+    $this->_sections['m']['total'] = 0;
+if ($this->_sections['m']['show']):
+
+            for ($this->_sections['m']['index'] = $this->_sections['m']['start'], $this->_sections['m']['iteration'] = 1;
+                 $this->_sections['m']['iteration'] <= $this->_sections['m']['total'];
+                 $this->_sections['m']['index'] += $this->_sections['m']['step'], $this->_sections['m']['iteration']++):
+$this->_sections['m']['rownum'] = $this->_sections['m']['iteration'];
+$this->_sections['m']['index_prev'] = $this->_sections['m']['index'] - $this->_sections['m']['step'];
+$this->_sections['m']['index_next'] = $this->_sections['m']['index'] + $this->_sections['m']['step'];
+$this->_sections['m']['first']      = ($this->_sections['m']['iteration'] == 1);
+$this->_sections['m']['last']       = ($this->_sections['m']['iteration'] == $this->_sections['m']['total']);
+?>
+            <li>
+                <?php echo '<a href="'; ?><?php echo $this->_tpl_vars['obj']->mRecommendations[$this->_sections['m']['index']]['link_to_product']; ?><?php echo '">'; ?><?php echo $this->_tpl_vars['obj']->mRecommendations[$this->_sections['m']['index']]['product_name']; ?><?php echo '</a>'; ?>
+
+                <span class="list"> - <?php echo $this->_tpl_vars['obj']->mRecommendations[$this->_sections['m']['index']]['description']; ?>
+</span>
+            </li>
+        <?php endfor; endif; ?>
+    </ol>
+<?php endif; ?>

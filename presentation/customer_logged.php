@@ -1,0 +1,48 @@
+<?php
+    class CustomerLogged
+    {
+        // Attributs publics
+        public $mCustomerName;
+        public $mCreditCardAction = 'Ajouter';
+        public $mAddressAction = 'Ajouter';
+        public $mLinkToAccountDetails;
+        public $mLinkToCreditCardDetails;
+        public $mLinkToAddressDetails;
+        public $mLinkToLogout;
+        public $mSelectedMenuItem;
+
+        // Constructeur de la classe
+        public function __construct()
+        {
+            $this->mLinkToAccountDetails = Link::ToAccountDetails();
+            $this->mLinkToCreditCardDetails = Link::ToCreditCardDetails();
+            $this->mLinkToAddressDetails = Link::ToAddressDetails();
+            $this->mLinkToLogout = Link::Build('index.php?Logout');
+
+            if (isset ($_GET['AccountDetails']))
+                $this->mSelectedMenuItem = 'account';
+            elseif (isset ($_GET['CreditCardDetails']))
+                $this->mSelectedMenuItem = 'credit-card';
+            elseif (isset ($_GET['AddressDetails']))
+                $this->mSelectedMenuItem = 'address';
+        }
+
+        public function init()
+        {
+            if (isset ($_GET['Logout']))
+            {
+                Customer::Logout();
+                header('Location:' . $_SESSION['link_to_last_page_loaded']);
+                exit();
+            }
+
+            $customer_data = Customer::Get();
+            $this->mCustomerName = $customer_data['name'];
+
+            if (!(empty ($customer_data['credit_card'])))
+                $this->mCreditCardAction = 'Modifier';
+
+            if (!(empty ($customer_data['address_1'])))
+                $this->mAddressAction = 'Modifier';
+        }
+    }

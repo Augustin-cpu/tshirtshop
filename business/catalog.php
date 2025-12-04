@@ -816,5 +816,17 @@ class Catalog
         // Execute the query
         DatabaseHandler::Execute($sql, $params);
     }
+    // Obtenir les recommandations de produits
+    public static function GetRecommendations($productId)
+    {
+// Construire la requête SQL
+            $sql = 'CALL catalog_get_recommendations(
+    :product_id, :short_product_description_length)';
+    // Construire le tableau de paramètres
+            $params = array (':product_id' => $productId,
+                ':short_product_description_length' =>
+                    SHORT_PRODUCT_DESCRIPTION_LENGTH);
+    // Exécuter la requête et retourner les résultats
+            return DatabaseHandler::GetAll($sql, $params);
+    }
 }
-?>

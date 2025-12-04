@@ -25,18 +25,24 @@
                 </div>
                 <div class="d-flex gap-5 p-4 ">
                     <div class="d-flex flex-column">
-                        <div id="left_column">
-                            {include file="search_box.tpl"}
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            {include file=$obj->mLoginOrLoggedCell}
                         </div>
-                        <div>
-                            {include file="departments_list.tpl"}
-                        </div>
-                        <div>
-                            {include file=$obj->mCategoriesCell}
-                            {include file=$obj->mCartSummaryCell}
-                        </div>
+                        {if !$obj->mHideBoxes}
+                            <div id="left_column" class="mb-3 d-flex flex-column gap-3 border-bottom border-3 border-dark">
+                                {include file="search_box.tpl"}
+                            </div>
+                            <div class="mb-3 d-flex flex-column gap-3 border-bottom border-3 border-dark p-3 bg-light">
+                                {include file="departments_list.tpl"}
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center mb-3 p-3 bg-light border-bottom border-3 border-dark">
+                                {include file=$obj->mCategoriesCell}
+                                {include file=$obj->mCartSummaryCell}
+                            </div>
+                        {/if}
+
                     </div>
-                    <div id="contents" class="container-lg d-flex flex-column justify-content-center p-3">
+                    <div id="contents" class="container-lg d-flex flex-column justify-content-center p-3 bg-light border-bottom border-3 border-dark">
                         {include file=$obj->mContentsCell}
                     </div>
                 </div>

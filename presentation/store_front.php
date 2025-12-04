@@ -7,13 +7,16 @@ class StoreFront
   // Définir le fichier de template pour la cellule des catégories
   public $mCategoriesCell = 'blank.tpl';
   // Titre de la page
-
+  // Contrôle la visibilité de la navigation de la boutique (départements, etc.)
+  public $mHideBoxes = false;
   // Définit le fichier de modèle pour la cellule du récapitulatif du panier (AJOUTÉ)
   public $mCartSummaryCell = 'blank.tpl';
 
   public $mPageTitle;
   // PayPal continue shopping link
   public $mPayPalContinueShoppingLink;
+    // Définir le fichier de modèle pour la cellule de connexion ou connecté
+  public $mLoginOrLoggedCell = 'customer_login.tpl';
   // Constructeur de classe
   public function __construct()
   {
@@ -26,8 +29,31 @@ class StoreFront
           Link::Build(str_replace(VIRTUAL_LOCATION, '', getenv('REQUEST_URI')));
     // Create "Continue Shopping" link for the PayPal shopping cart
       // Build the "continue shopping" link
-   if (!isset ($_GET['CartAction']))
-       $_SESSION['link_to_last_page_loaded'] = $_SESSION['link_to_store_front'];
+      // Build the "continue shopping" link
+  if (!isset ($_GET['CartAction']) && !isset($_GET['Logout']) &&
+      !isset($_GET['RegisterCustomer']) &&
+      !isset($_GET['AddressDetails']) &&
+      !isset($_GET['CreditCardDetails']) &&
+      !isset($_GET['AccountDetails']) &&
+      !isset($_GET['Checkout']))
+      $_SESSION['link_to_last_page_loaded'] = $_SESSION['link_to_store_front'];
+      if (Customer::IsAuthenticated())
+          $this->mLoginOrLoggedCell = 'customer_logged.tpl';
+      if (isset ($_GET['RegisterCustomer']) ||
+          isset ($_GET['AccountDetails']))
+          $this->mContentsCell = 'customer_details.tpl';
+      elseif (isset ($_GET['AddressDetails']))
+          $this->mContentsCell = 'customer_address.tpl';
+
+elseif (isset ($_GET['CreditCardDetails']))
+$this->mContentsCell = 'customer_credit_card.tpl';
+// Build the "cancel" link for customer details pages
+  if (!isset($_GET['Logout']) &&
+      !isset($_GET['RegisterCustomer']) &&
+      !isset($_GET['AddressDetails']) &&
+      !isset($_GET['CreditCardDetails']) &&
+      !isset($_GET['AccountDetails']))
+      $_SESSION['customer_cancel_link'] = $_SESSION['link_to_store_front'];
     // Charger les détails du département si l'on visite un département
     if (isset($_GET['DepartmentId'])) {
       $this->mContentsCell = 'department.tpl';
@@ -63,6 +89,15 @@ class StoreFront
     // Charger la page de détails du produit si l'on visite un produit
     if (isset($_GET['ProductId']))
       $this->mContentsCell = 'product.tpl';
+
+  if (isset ($_GET['Checkout']))
+  {
+      if (Customer::IsAuthenticated())
+          $this->mContentsCell = 'checkout_info.tpl';
+      else
+          $this->mContentsCell = 'checkout_not_logged.tpl';
+      $this->mHideBoxes = true;
+  }
 
     // Charger le titre de la page
     $this->mPageTitle = $this->_GetPageTitle();

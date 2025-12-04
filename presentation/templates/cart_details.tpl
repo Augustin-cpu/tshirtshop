@@ -46,10 +46,11 @@
                 <td align="right">
                     <input type="submit" name="update" value="Update" />
                 </td>
-                <td align="right">
-                    <input type="submit" name="place_order" value="Place Order"
-                           onclick="placingOrder=true;" />
-                </td>
+                {if $obj->mShowCheckoutLink}
+                    <td align="right">
+                        <a href="{$obj->mLinkToCheckout}">Paiement</a>
+                    </td>
+                {/if}
             </tr>
         </table>
     </form>
@@ -85,4 +86,19 @@
 
 {if $obj->mLinkToContinueShopping}
     <p><a href="{$obj->mLinkToContinueShopping}">Continue Shopping </a></p>
+{/if}
+{if $obj->mRecommendations}
+    <h2>Les clients qui ont acheté ceci ont aussi acheté :</h2>
+    <ol>
+        {section name=m loop=$obj->mRecommendations}
+            <li>
+                {strip}
+                    <a href="{$obj->mRecommendations[m].link_to_product}">
+                        {$obj->mRecommendations[m].product_name}
+                    </a>
+                {/strip}
+                <span class="list"> - {$obj->mRecommendations[m].description}</span>
+            </li>
+        {/section}
+    </ol>
 {/if}

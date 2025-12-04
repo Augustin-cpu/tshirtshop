@@ -96,7 +96,12 @@ class Link
     {
         $proper_url = '';
         if (isset ($_GET['Search']) || isset($_GET['SearchResults']) ||
-            isset ($_GET['CartAction']) || isset ($_GET['AjaxRequest']))
+            isset ($_GET['CartAction']) || isset ($_GET['AjaxRequest']) ||
+            isset ($_POST['Login']) || isset ($_GET['Logout']) ||
+            isset ($_GET['RegisterCustomer']) ||
+            isset ($_GET['AddressDetails']) ||
+            isset ($_GET['CreditCardDetails']) ||
+            isset ($_GET['AccountDetails']) || isset ($_GET['Checkout']))
         {
             return ;
         }
@@ -281,4 +286,32 @@ class Link
         $link = 'Page=OrderDetails&OrderId=' . $orderId;
         return self::ToAdmin($link);
     }
+        // Crée un lien vers la page d'inscription du client
+        public static function ToRegisterCustomer()
+        {
+            return self::Build('register-customer/');
+        }
+
+// Crée un lien vers la page de mise à jour des détails du compte client
+        public static function ToAccountDetails()
+        {
+            return self::Build('account-details/');
+        }
+
+// Crée un lien vers la page de mise à jour des détails de la carte de crédit du client
+        public static function ToCreditCardDetails()
+        {
+            return self::Build('credit-card-details/');
+        }
+
+// Crée un lien vers la page de mise à jour des détails de l'adresse du client
+        public static function ToAddressDetails()
+        {
+            return self::Build('address-details/');
+        }
+        // Crée un lien vers la page de paiement
+        public static function ToCheckout()
+        {
+            return self::Build('checkout/', 'https');
+        }
 }
